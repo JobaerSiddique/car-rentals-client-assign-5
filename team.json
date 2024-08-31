@@ -1,0 +1,22 @@
+[
+    {
+        "name":"John Doe",
+        "position":"CEO & Founder",
+        "image":"https://res.cloudinary.com/dut0oeco5/image/upload/v1724690651/lsmhxvza9l53qkzyt1kc.jpg"
+    },
+    {
+        "name":"Jane Smith",
+        "position":"Chief Operations Officer",
+        "image":"https://res.cloudinary.com/dut0oeco5/image/upload/v1724690652/egcyu6kh5pmafu3cstg2.jpg"
+    },
+    {
+        "name":"Mike Johnson",
+        "position":"Head of Customer Service",
+        "image":"https://res.cloudinary.com/dut0oeco5/image/upload/v1724690653/zckghkmkzdimggkoazrt.jpg"
+    }
+]
+
+//
+image:https://res.cloudinary.com/dut0oeco5/image/upload/v1724690653/zckghkmkzdimggkoazrt.jpg,
+image:https://res.cloudinary.com/dut0oeco5/image/upload/v1724690652/egcyu6kh5pmafu3cstg2.jpg,
+image:https://res.cloudinary.com/dut0oeco5/image/upload/v1724690651/lsmhxvza9l53qkzyt1kc.jpg
