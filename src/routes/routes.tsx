@@ -18,6 +18,7 @@ import AdminProtectRoute from "../RequireAuth/AdminRoute";
 import AdminBookingSummery from "../components/AdminManagement/AdminBookingSummery";
 import AddCar from "../components/AdminManagement/AddCar";
 import AdminAllUser from "../components/AdminManagement/UserManagement/AdminAllUser";
+import AllCars from "../components/AdminManagement/CarManagement/AllCars";
 
 
 const router = createBrowserRouter([
@@ -87,6 +88,10 @@ const router = createBrowserRouter([
             {
                 path:'/dashboard/admin/allUser',
                 element:<AdminProtectRoute><AdminAllUser/></AdminProtectRoute>
+            },
+            {
+                path:'/dashboard/admin/allCar',
+                element:<AdminProtectRoute><AllCars/></AdminProtectRoute>
             }
         ]
     },

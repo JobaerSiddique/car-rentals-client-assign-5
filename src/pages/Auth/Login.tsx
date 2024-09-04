@@ -6,6 +6,7 @@ import { verifyToken } from "../../utils/verfiyToken";
 
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import Swal from "sweetalert2";
 
 
 const Login = () => {
@@ -26,10 +27,19 @@ const Login = () => {
       toast("user Login successful")
      }
      else if(user.role === 'admin'){
-      navigate('/dashboard')
+      navigate('/dashboard/admin/bookingSummery')
       toast("Admin Login successful")
      }
     };
+
+    if(error){
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        html: `<span style="color: red;">${error?.data?.message}</span>`,
+        
+      });
+    }
     
     return (
         <div className="flex justify-center items-center min-h-screen">

@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { currentUser, logOut } from "../../redux/features/Auth/AuthSlice";
+import { useGetUserQuery } from "../../redux/features/Users/UserApi";
 
 
 const Navbar = () => {
     const user = useAppSelector(currentUser)
     const dispatch = useAppDispatch()
-  
+  const {data} = useGetUserQuery()
+  console.log(data);
     const handleLogout = () => {
         dispatch(logOut())
     }
@@ -21,7 +23,12 @@ const Navbar = () => {
       <li><Link to="/dashboard">Dashboard</Link></li>
     
     </>}
-    {user? <li><button onClick={handleLogout}>LogOut</button></li>:<li><Link to='/login'>Login</Link></li>}
+    {user? <li><button onClick={handleLogout}>LogOut <span>{data?.data?.name}</span></button></li>:<li><Link to='/login'>Login</Link></li>}
+    {user && <div className="avatar ">
+  <div className="w-10 rounded-full">
+    <img src={data?.data?.image} />
+  </div>
+</div>}
               
              
 

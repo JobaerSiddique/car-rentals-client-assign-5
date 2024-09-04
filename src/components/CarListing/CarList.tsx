@@ -3,6 +3,7 @@ import { toast } from "sonner";
 
 
 const CarList = ({cars,error,isLoading}) => {
+  
   if(isLoading){
     return <div className="flex justify-center h-screen">
     <span className="loading loading-bars loading-xs"></span>
@@ -13,13 +14,17 @@ const CarList = ({cars,error,isLoading}) => {
   }
   
     if(error){
-    return toast.error(error.message);
+    return toast.error(error);
+
+
    }
+   const availableCars = cars?.data?.filter((car) => car.status === "available");
+   console.log({availableCars});
     return (
         <div className="my-12">
           <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-14 justify-items-center items-center p-6">
             {
-                cars?.data?.map(car=><div key={car._id} className="card glass w-auto">
+                availableCars?.map(car=><div key={car._id} className="card glass w-auto">
                     <figure>
                       <img
                         src={car.image}

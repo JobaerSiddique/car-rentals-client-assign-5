@@ -65,6 +65,7 @@ const AboutUs = () => {
                     <li><strong>Address:</strong> 1234 Car Rental St, City, State, ZIP</li>
                 </ul>
             </section>
+        
         </div>
     );
 };

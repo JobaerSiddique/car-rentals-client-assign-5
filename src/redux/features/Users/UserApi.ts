@@ -7,11 +7,20 @@ const UserApi = baseApi.injectEndpoints({
         query:()=>({
             url:'auth/me',
             method:"GET"
-        })
+        }),
+        providesTags: ['User']
+       }),
+       getUpdateProfile : builder.mutation({
+        query:(user)=>({
+            url:`auth/update-profile`,
+            method:"PUT",
+            body:user
+        }),
+        invalidatesTags: ['User']
        })
     })
  
 })
 
 
-export const { useGetUserQuery } = UserApi;
+export const { useGetUserQuery,useGetUpdateProfileMutation } = UserApi;

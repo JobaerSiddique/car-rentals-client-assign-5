@@ -2,6 +2,7 @@ import { useState } from "react";
 import CarFilter from "../components/CarListing/CarFilter";
 import CarList from "../components/CarListing/CarList";
 import { useGetCarsQuery } from "../redux/features/Cars/CarApi";
+import LoadingPage from "./shared/LoadingPage";
 
 
 
@@ -17,6 +18,13 @@ const CarListing = () => {
     const handleFilterChange = (newFilter)=>{
         setFilters(newFilter)
         console.log(newFilter)
+    }
+
+    if(isLoading){
+        return <LoadingPage/>
+    }
+    if(error){
+        console.log(error?.message);
     }
     return (
         <div >
