@@ -17,7 +17,7 @@ const UsersInfo = () => {
     
     return (
         <>
-        <div className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 rounded-3xl">
+        <div >
         <div className="card card-glass w-full shadow-xl ">
   <div className="card-body">
   <div>

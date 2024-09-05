@@ -20,7 +20,12 @@ const Navbar = () => {
      <li><Link to="/">Contact</Link></li>
     {user&& <>
       <li><Link to="/">Booking</Link></li>
-      <li><Link to="/dashboard">Dashboard</Link></li>
+      <li><Link to="/dashboard/users">Dashboard</Link></li>
+    
+    </>}
+    {user?.role === "admin"&& <>
+      
+      <li><Link to="/dashboard/admin/bookingSummery">Dashboard</Link></li>
     
     </>}
     {user? <li><button onClick={handleLogout}>LogOut <span>{data?.data?.name}</span></button></li>:<li><Link to='/login'>Login</Link></li>}
@@ -37,7 +42,7 @@ const Navbar = () => {
     
     
     return (
-        <div className="navbar bg-base-100">
+        <div className="navbar bg-cyan-500">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">

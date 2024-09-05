@@ -6,6 +6,7 @@ import {
   SideBySideMagnifier
   
 } from "react-image-magnifiers";
+import LoadingPage from "./shared/LoadingPage";
 
 const SingleCarInfo = () => {
     const {id} = useParams()
@@ -16,7 +17,7 @@ const SingleCarInfo = () => {
     return toast(error.message)
   }
   if(isLoading){
-    return toast("loading...")
+    return <LoadingPage/>
   }
   const car = data?.data;
   if(!car){

@@ -19,6 +19,8 @@ import AdminBookingSummery from "../components/AdminManagement/AdminBookingSumme
 import AddCar from "../components/AdminManagement/AddCar";
 import AdminAllUser from "../components/AdminManagement/UserManagement/AdminAllUser";
 import AllCars from "../components/AdminManagement/CarManagement/AllCars";
+import UserPaymentHistory from "../components/users/UserPaymentHistory";
+import PaymentCancel from "../components/Payment/PaymentCancel";
 
 
 const router = createBrowserRouter([
@@ -53,6 +55,7 @@ const router = createBrowserRouter([
         path:'/dashboard',
         element:<ProtectRoute><DashBoardLayout/></ProtectRoute> ,
         children:[
+           
             {
                 path:'/dashboard/my-booking',
                 element: <Userbooking/>
@@ -60,6 +63,10 @@ const router = createBrowserRouter([
             {
                 path:'/dashboard/users',
                 element: <UsersInfo/>
+            },
+            {
+                path:'/dashboard/paymentHistory',
+                element: <UserPaymentHistory/>
             },
             {
                 path:'/dashboard/paymentInfo',
@@ -76,6 +83,10 @@ const router = createBrowserRouter([
             {
                 path:'/dashboard/payment/failed/:id',
                 element:<PaymentFailed/>
+            },
+            {
+                path:'/dashboard/payment/cancel/:id',
+                element:<PaymentCancel/>
             },
             {
                 path:'/dashboard/admin/bookingSummery',

@@ -1,20 +1,54 @@
 
-import { useGetBookingsQuery } from "../../redux/features/bookings/bookingApi";
+import { useDeleteBookingsMutation, useGetBookingsQuery } from "../../redux/features/bookings/bookingApi";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { LiaEdit } from "react-icons/lia";
 import noData from "../../../no-Data.json"
 import Lottie from "react-lottie-player";
 import LoadingPage from "../../pages/shared/LoadingPage";
+import Swal from "sweetalert2";
+import { useState } from "react";
 
 const Userbooking = () => {
  
     const {data:bookings=[],isLoading:bookingLoading,error:bookingError} = useGetBookingsQuery()
-   
-
-  if(bookingLoading) {
+   const [deleteBooking,{data,isLoading}] = useDeleteBookingsMutation()
+    const [updateModel,setUpdateModel] = useState(false)
+  if(bookingLoading || isLoading) {
     return <LoadingPage/>
   }
 
+
+const handleBookingDelete = async (id: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you want to delete this booking?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+       
+        const res = await deleteBooking(id);
+  
+       console.log(res.data?.message);
+        if (res?.data?.success) {
+          Swal.fire({
+            title: "Deleted!",
+            text:  `${res?.data?.message}`,
+            icon: "success"
+          });
+        } else {
+          Swal.fire({
+            title: "Error!",
+            text: `${res?.data?.data?.message}`,
+            icon: "error"
+          });
+        }
+      }
+    });
+  };
 
     return (
       <div>
@@ -41,7 +75,7 @@ const Userbooking = () => {
                           <tbody>
                               {/* row 1 */}
                               {bookings?.data?.map((booking) => (
-                                  <tr key={booking._id} className="hover">
+                                  <tr key={booking._id} className={booking.isDeleted? "line-through text-red-600 font-bold":"hover"}>
                                       <td>
                                           <div className="flex items-center gap-3">
                                               <div className="avatar">
@@ -85,7 +119,7 @@ const Userbooking = () => {
                                               <p className="text-red-600 font-bold">Pending</p>
                                           )}
                                       </td>
-                                      {booking.approve ? (
+                                      {booking.approve  || booking.isDeleted ?(
                                           <td className="flex justify-center items-center gap-4">
                                               <button disabled className="btn btn-error btn-sm">
                                                   <RiDeleteBin5Line />
@@ -96,12 +130,13 @@ const Userbooking = () => {
                                           </td>
                                       ) : (
                                           <td className="flex justify-center items-center gap-4">
-                                              <button className="btn btn-error btn-sm">
+                                              <button onClick={()=>handleBookingDelete(booking._id)} className="btn btn-error btn-sm">
                                                   <RiDeleteBin5Line />
                                               </button>
-                                              <button className="btn btn-success btn-sm">
-                                                  <LiaEdit />
-                                              </button>
+                                              <label htmlFor="my_modal_6" className="btn btn-success btn-sm"> <LiaEdit /></label>
+                                              {/* <button className="btn btn-success btn-sm">
+                                                 
+                                              </button> */}
                                           </td>
                                       )}
                                   </tr>

@@ -11,10 +11,16 @@ const PaymentApi= baseApi.injectEndpoints({
                 method:"POST",
                
             })
+        }),
+        getPaymentInfo : builder.query({
+            query:(id)=>({
+                url:`payment/paymentInfo/${id}`,
+                method:"GET"
+            })
         })
     })
 })
 
-export const {useCreatePaymentMutation} = PaymentApi
+export const {useCreatePaymentMutation,useGetPaymentInfoQuery} = PaymentApi
 
  

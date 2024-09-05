@@ -112,7 +112,7 @@ const PaymentInfo = () => {
           <div className="card-body">
               <div className="overflow-x-auto">
                   {bookings?.data?.length > 0 ? (
-                      <table className="table">
+                      <table className="table text-center">
                           {/* head */}
                           <thead>
                               <tr>
@@ -132,7 +132,7 @@ const PaymentInfo = () => {
                           <tbody>
                               {/* rows */}
                               {bookings?.data?.map((booking) =>
-                                  booking?.endTime ? (
+                                  booking?.endTime !==null ? (
                                       <tr key={booking._id} className="hover">
                                           <td>
                                               <div className="flex items-center gap-3">
@@ -164,19 +164,7 @@ const PaymentInfo = () => {
                                           <td>{booking._id}</td>
                                           <td>{booking.date}</td>
                                           <td>{booking.startTime}</td>
-                                          <td>
-                                              {booking.endTime ? (
-                                                  <p className="text-green-600 font-bold">
-                                                      {booking.endTime}
-                                                  </p>
-                                              ) : booking.approve ? (
-                                                  <p className="text-red-600 font-bold">Running</p>
-                                              ) : (
-                                                  <p className="text-yellow-600 font-bold">
-                                                      Pending Approval
-                                                  </p>
-                                              )}
-                                          </td>
+                                         <td>{booking.endTime}</td>
                                           <td>$ {booking.car.pricePerHour}</td>
                                           <td className="text-red-600 font-bold"> {booking.duration} In Hour</td>
                                           <td>
@@ -211,7 +199,14 @@ const PaymentInfo = () => {
                                           </th>
                                           <th>{booking.paid === 'paid'&& <button onClick={() => generatePDF(booking)}className="btn btn-outline btn-sm">Recipt</button>}</th>
                                       </tr>
-                                  ) : null
+                                  ) :    <div className="flex justify-center items-center h-screen">
+                                  <Lottie
+                           loop
+                           animationData={noData}
+                           play
+                           style={{ width: 300, height: 500 }}
+                         />
+                             </div>
                               )}
                           </tbody>
                       </table>
