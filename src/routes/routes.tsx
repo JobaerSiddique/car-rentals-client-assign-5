@@ -23,6 +23,8 @@ import UserPaymentHistory from "../components/users/UserPaymentHistory";
 import PaymentCancel from "../components/Payment/PaymentCancel";
 import BookingPage from "../components/Bookings/BookingPage";
 import BookNow from "../components/Bookings/BookNow";
+import ConfirmBooking from "../components/Bookings/ConfirmBooking";
+import Allbookings from "../components/Bookings/Allbookings";
 
 
 const router = createBrowserRouter([
@@ -57,6 +59,10 @@ const router = createBrowserRouter([
             {
                 path:'bookNow/:id',
                 element:<ProtectRoute><BookNow/></ProtectRoute>
+            },
+            {
+                path:'confirmBook',
+                element:<ProtectRoute><ConfirmBooking/></ProtectRoute>
             }
         ]
             
@@ -65,6 +71,10 @@ const router = createBrowserRouter([
         path:'/dashboard',
         element:<ProtectRoute><DashBoardLayout/></ProtectRoute> ,
         children:[
+            {
+                index:true,
+                element:<UsersInfo/>
+            },
            
             {
                 path:'/dashboard/my-booking',
@@ -113,6 +123,10 @@ const router = createBrowserRouter([
             {
                 path:'/dashboard/admin/allCar',
                 element:<AdminProtectRoute><AllCars/></AdminProtectRoute>
+            },
+            {
+                path:'/dashboard/admin/allBookings',
+                element:<AdminProtectRoute><Allbookings/></AdminProtectRoute>
             }
         ]
     },

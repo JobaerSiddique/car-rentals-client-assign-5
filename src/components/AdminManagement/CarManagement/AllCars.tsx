@@ -3,10 +3,11 @@ import { useGetCarsQuery } from "../../../redux/features/Cars/CarApi";
 
 
 const AllCars = () => {
-    const {data} = useGetCarsQuery({})
+    const {data,refetch} = useGetCarsQuery({})
  
 
     console.log(data?.data);
+    
     return (
         <div>
             <h1 className="text-center text-3xl font-bold uppercase">All Cars Information </h1>

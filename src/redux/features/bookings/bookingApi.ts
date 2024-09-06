@@ -1,3 +1,4 @@
+
 import { baseApi } from "../../api/baseApi";
 
 
@@ -27,10 +28,33 @@ const bookingApi = baseApi.injectEndpoints({
             method:"DELETE",
         }),
         invalidatesTags: (result, error, id) => [{ type: 'Bookings', id }, 'Bookings']
+       }),
+       createBooking : builder.mutation({
+        query:(book)=>({
+            url:"/bookings",
+            method:"POST",
+            body:book,
+        }),
+        invalidatesTags: ['Bookings'],
+       }),
+       getAllBooking: builder.query({
+        query:()=>({
+            url:"/bookings/all-bookings",
+            method:"GET",
+        }),
+        providesTags: ['Bookings']
+       }),
+       getApprove: builder.mutation({
+        query:(id)=>({
+            url:`/bookings/approve/${id}`,
+            method:"PUT",
+        }),
+        invalidatesTags: ['Bookings'], 
        })
+    
 
     })
 })
 
 
-export const {useGetBookingsQuery,useGetSingleBookingsQuery,useDeleteBookingsMutation} = bookingApi;
+export const {useGetBookingsQuery,useGetSingleBookingsQuery,useDeleteBookingsMutation,useCreateBookingMutation, useGetAllBookingQuery, useGetApproveMutation} = bookingApi;

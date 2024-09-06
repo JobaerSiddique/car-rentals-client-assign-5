@@ -81,7 +81,7 @@ useEffect(() => {
         <details>
           <summary>Manage Booking</summary>
           <ul className="p-2">
-            <li><Link to='/dashboard/admin/add-Car'>Add Booking</Link></li>
+            <li><Link to='/dashboard/admin/allBookings'>All Booking</Link></li>
           </ul>
         </details>
       </li>
