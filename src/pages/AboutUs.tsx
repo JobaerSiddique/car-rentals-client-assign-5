@@ -11,7 +11,7 @@ const AboutUs = () => {
         <div className="mx-auto p-6">
               <header className="text-center mb-12">
                 <h1 className="text-4xl md:text-5xl font-bold mb-4">About Us</h1>
-                <p className="text-lg md:text-xl text-gray-600">Learn more about our journey, our team, and our commitment to you.</p>
+                <p className="text-lg md:text-xl  light:text-gray-700">Learn more about our journey, our team, and our commitment to you.</p>
             </header>
             <section className=" mb-12">
                 <h2 className="lg:text-3xl text-xl font-bold mb-4">Our History</h2>
@@ -33,7 +33,7 @@ const AboutUs = () => {
 
             <section className=" my-16">
                 <h2 className="text-3xl font-bold mb-4">Our Fleet</h2>
-                <p className="text-lg text-gray-700 text-justify">
+                <p className="text-lg  light:text-gray-700 text-justify">
                     We offer a wide range of vehicles to suit every need and budget. Whether you're looking for an economical option,
                     a luxury ride, or an SUV for a family trip, we have the perfect car for you.
                 </p>
@@ -48,7 +48,7 @@ const AboutUs = () => {
               {/* Values & Commitment */}
               <section className="p-2 mb-12">
                 <h2 className="text-xl lg:text-3xl font-bold mb-4">Our Values & Commitment</h2>
-                <p className="text-lg text-justify text-gray-700">
+                <p className="text-lg text-justify light:text-gray-700">
                     We are dedicated to providing excellent customer service and maintaining the highest standards of quality and safety.
                     Our commitment to sustainability drives us to continually seek ways to reduce our environmental impact, from maintaining
                     a fleet of fuel-efficient vehicles to implementing eco-friendly practices in our operations.
@@ -58,7 +58,7 @@ const AboutUs = () => {
             {/* Contact Information */}
             <section className="p-2">
                 <h2 className="text-3xl font-bold mb-4">Contact Us</h2>
-                <p className="text-lg text-gray-700">We'd love to hear from you! Reach out to us at:</p>
+                <p className="text-lg light:text-gray-700">We'd love to hear from you! Reach out to us at:</p>
                 <ul className="mt-4">
                     <li><strong>Phone:</strong> (123) 456-7890</li>
                     <li><strong>Email:</strong> contact@carrentalcompany.com</li>

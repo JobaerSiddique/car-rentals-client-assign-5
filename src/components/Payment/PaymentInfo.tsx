@@ -199,14 +199,7 @@ const PaymentInfo = () => {
                                           </th>
                                           <th>{booking.paid === 'paid'&& <button onClick={() => generatePDF(booking)}className="btn btn-outline btn-sm">Recipt</button>}</th>
                                       </tr>
-                                  ) :    <div className="flex justify-center items-center h-screen">
-                                  <Lottie
-                           loop
-                           animationData={noData}
-                           play
-                           style={{ width: 300, height: 500 }}
-                         />
-                             </div>
+                                  ) :   null
                               )}
                           </tbody>
                       </table>

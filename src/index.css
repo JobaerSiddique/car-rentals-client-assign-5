@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  body.dark {
+    background-color: #1a202c; /* Dark background color */
+    color: #ffffff; /* White text color */
+  }

@@ -10,7 +10,7 @@ const PaymentSuccess = () => {
     console.log(data?.data);
     return (
         <div>
-           <div className="flex justify-center items-center h-screen">
+           <div className="flex justify-center items-center ">
                     <Lottie
              loop
              animationData={ payment}

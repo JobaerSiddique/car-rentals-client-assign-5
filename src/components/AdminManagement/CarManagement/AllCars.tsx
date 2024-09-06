@@ -10,10 +10,7 @@ const AllCars = () => {
     return (
         <div>
             <h1 className="text-center text-3xl font-bold uppercase">All Cars Information </h1>
-            <div style={{
-    backgroundImage: "url(https://img.daisyui.com/images/stock/photo-1507358522600-9f71e620c44e.webp)",
-    backgroundColor: "rgba(255, 255, 255, 0.5)", borderRadius: "15px" // Adjust the opacity value here
-}}>
+        
     <div className="card glass w-full">
   
   <div className="card-body">
@@ -43,7 +40,7 @@ const AllCars = () => {
                   </div>
                 </div>
                 <div>
-                  <div className="font-bold">{car.name}</div>
+                  <div className="font-bold dark:text-white">{car.name}</div>
                   <div className="text-sm opacity-50">{car.model}</div>
                 </div>
               </div>
@@ -70,7 +67,7 @@ const AllCars = () => {
   </div>
 </div>
 
-            </div>
+            
         </div>
     );
 };

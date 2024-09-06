@@ -21,6 +21,8 @@ import AdminAllUser from "../components/AdminManagement/UserManagement/AdminAllU
 import AllCars from "../components/AdminManagement/CarManagement/AllCars";
 import UserPaymentHistory from "../components/users/UserPaymentHistory";
 import PaymentCancel from "../components/Payment/PaymentCancel";
+import BookingPage from "../components/Bookings/BookingPage";
+import BookNow from "../components/Bookings/BookNow";
 
 
 const router = createBrowserRouter([
@@ -47,6 +49,14 @@ const router = createBrowserRouter([
             {
                 path:'carInfo/:id',
                 element:<SingleCarInfo/>
+            },
+            {
+                path:'booking',
+                element:<ProtectRoute><BookingPage/></ProtectRoute>
+            },
+            {
+                path:'bookNow/:id',
+                element:<ProtectRoute><BookNow/></ProtectRoute>
             }
         ]
             

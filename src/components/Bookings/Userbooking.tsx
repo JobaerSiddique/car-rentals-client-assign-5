@@ -7,12 +7,14 @@ import Lottie from "react-lottie-player";
 import LoadingPage from "../../pages/shared/LoadingPage";
 import Swal from "sweetalert2";
 import { useState } from "react";
+import UpdateBookingModel from "../Modal/UpdateBookingModel";
 
 const Userbooking = () => {
  
     const {data:bookings=[],isLoading:bookingLoading,error:bookingError} = useGetBookingsQuery()
    const [deleteBooking,{data,isLoading}] = useDeleteBookingsMutation()
     const [updateModel,setUpdateModel] = useState(false)
+    const [update,setUpdate] = useState(null)
   if(bookingLoading || isLoading) {
     return <LoadingPage/>
   }
@@ -50,8 +52,16 @@ const handleBookingDelete = async (id: string) => {
     });
   };
 
+
+//   handle update booking handler
+
+const handleUpdateBooking =(booking) =>{
+    setUpdateModel(true)
+    setUpdate(booking)
+}
     return (
-      <div>
+        <>
+        <div>
       <div className="card bg-base-100 w-auto shadow-xl">
           <div className="card-body">
               <div className="overflow-x-auto">
@@ -75,7 +85,7 @@ const handleBookingDelete = async (id: string) => {
                           <tbody>
                               {/* row 1 */}
                               {bookings?.data?.map((booking) => (
-                                  <tr key={booking._id} className={booking.isDeleted? "line-through text-red-600 font-bold":"hover"}>
+                                  <tr key={booking._id} className={booking.isDeleted? "line-through text-red-600  ":"hover"}>
                                       <td>
                                           <div className="flex items-center gap-3">
                                               <div className="avatar">
@@ -87,13 +97,13 @@ const handleBookingDelete = async (id: string) => {
                                                   </div>
                                               </div>
                                               <div>
-                                                  <div className="font-bold text-black">{booking.car.name}</div>
-                                                  <div className="text-sm opacity-50">{booking.car.color}</div>
+                                                  <div className="font-bold light:text-black dark:text-white">{booking.car.name}</div>
+                                                  <div className="text-sm opacity-80">{booking.car.color}</div>
                                               </div>
                                           </div>
                                       </td>
                                       <td>
-                                          UserName: {booking.user.name}
+                                          Name: {booking.user.name}
                                           <br />
                                           <span className="badge badge-ghost badge-sm">
                                               Phone : {booking.user.phone}
@@ -133,7 +143,7 @@ const handleBookingDelete = async (id: string) => {
                                               <button onClick={()=>handleBookingDelete(booking._id)} className="btn btn-error btn-sm">
                                                   <RiDeleteBin5Line />
                                               </button>
-                                              <label htmlFor="my_modal_6" className="btn btn-success btn-sm"> <LiaEdit /></label>
+                                              <label onClick={()=>handleUpdateBooking(booking) } htmlFor="my_modal_6" className="btn btn-success btn-sm"> <LiaEdit /></label>
                                               {/* <button className="btn btn-success btn-sm">
                                                  
                                               </button> */}
@@ -157,6 +167,10 @@ const handleBookingDelete = async (id: string) => {
           </div>
       </div>
   </div>
+
+  {updateModel && <UpdateBookingModel update={update}/>}
+        </>
+      
     );
 };
 
