@@ -50,6 +50,14 @@ const bookingApi = baseApi.injectEndpoints({
             method:"PUT",
         }),
         invalidatesTags: ['Bookings'], 
+       }),
+       getReturnCar: builder.mutation({
+        query:(data)=>({
+            url:'/cars/return',
+            method:"PUT",
+            body:data,
+        }),
+        invalidatesTags: ['Bookings'],
        })
     
 
@@ -57,4 +65,4 @@ const bookingApi = baseApi.injectEndpoints({
 })
 
 
-export const {useGetBookingsQuery,useGetSingleBookingsQuery,useDeleteBookingsMutation,useCreateBookingMutation, useGetAllBookingQuery, useGetApproveMutation} = bookingApi;
+export const {useGetBookingsQuery,useGetSingleBookingsQuery,useDeleteBookingsMutation,useCreateBookingMutation, useGetAllBookingQuery, useGetApproveMutation,useGetReturnCarMutation} = bookingApi;

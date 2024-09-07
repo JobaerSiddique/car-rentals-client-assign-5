@@ -1,6 +1,8 @@
 import Swal from "sweetalert2";
 import LoadingPage from "../../pages/shared/LoadingPage";
 import { useDeleteBookingsMutation, useGetAllBookingQuery, useGetApproveMutation, useGetBookingsQuery } from "../../redux/features/bookings/bookingApi";
+import { useState } from "react";
+import ReturnBookingModel from "../Modal/ReturnBookingModel";
 
 
 const Allbookings = () => {
@@ -8,7 +10,8 @@ const Allbookings = () => {
    const [approve,{data:approveData,isLoading:approveLoading}] = useGetApproveMutation()
    const [deleteBooking,{data:deleteData,isLoading:deleteLoading}] =useDeleteBookingsMutation()
     const {refetch} = useGetBookingsQuery()
-console.log({deleteBooking});
+    const [returnModal,setReturnModal]=useState(false)
+    const [returnBook,setReturnBook] = useState("")
 // approve handeling
 const handleApprove = async (id) => {
     const result = await Swal.fire({
@@ -76,7 +79,10 @@ const handleCancel = async (id) => {
 };
 
 // handleCancel
-
+const handleReturn = (booking)=>{
+    setReturnModal(true)
+    setReturnBook(booking)
+}
 
    
    const hasDuration = data?.data?.result.some(booking => booking.duration != null);
@@ -154,7 +160,10 @@ approve? <td >
                 
             </td>}
             <td>
-                {booking.isDeleted?<button disabled className="btn btn-outline btn-warning btn-xs">Return Car</button>:<button className="btn btn-outline btn-warning btn-xs">Return Car</button>}
+                {booking.isDeleted?<button disabled className="btn btn-outline btn-warning btn-xs">Return Car</button>:
+                // <label htmlFor="my_modal_6"><button onClick={()=>handleReturn(booking)} className="btn btn-outline btn-warning btn-xs">Return Car</button></label>
+                <label onClick={()=>handleReturn(booking)} htmlFor="my_modal_6" className="btn btn-outline btn-warning btn-xs">Return Car</label>
+                }
             </td>
           </tr>)
         }
@@ -172,7 +181,7 @@ approve? <td >
   </div>
 </div>
           </div>
-        
+        {returnModal && <ReturnBookingModel book={returnBook}/>}
         </>
     );
 };
