@@ -17,10 +17,25 @@ const UserApi = baseApi.injectEndpoints({
             body:user
         }),
         invalidatesTags: ['User']
+       }),
+       getUserStatus : builder.mutation({
+        query:(id)=>({
+            url:`/auth/userStatus/${id}`,
+            method:"PUT"
+        }),
+        invalidatesTags: ['User']
+       }),
+       forgetPassword: builder.mutation({
+        query:(data)=>({
+            url:'auth/forget-password',
+            method:"POST",
+            body:data,
+        }),
+        invalidatesTags: ['User']
        })
     })
  
 })
 
 
-export const { useGetUserQuery,useGetUpdateProfileMutation } = UserApi;
+export const { useGetUserQuery,useGetUpdateProfileMutation,useGetUserStatusMutation,useForgetPasswordMutation} = UserApi;

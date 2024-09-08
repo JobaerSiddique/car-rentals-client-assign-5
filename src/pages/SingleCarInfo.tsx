@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useGetCarsByIdQuery } from "../redux/features/Cars/CarApi";
 import { toast } from "sonner";
 import {
@@ -11,7 +11,16 @@ import LoadingPage from "./shared/LoadingPage";
 const SingleCarInfo = () => {
     const {id} = useParams()
     const {data,isLoading,error} = useGetCarsByIdQuery(id)
-    // const cars= car?.data?.data
+    const navigate = useNavigate()
+
+    const handleBooking = (id) => {
+      // Navigate to the BookNow component with car data
+      if (data?.data) {
+        navigate(`/bookNow/${id}`, { state: { car: data?.data } });
+      } else {
+        toast("Car data not available for booking.");
+      }
+    };
 
   if(error){
     return toast(error.message)
@@ -55,7 +64,7 @@ const SingleCarInfo = () => {
       </p>
       <p className="font-bold text-xl">PricePerHour : <span>${car.pricePerHour}</span></p>
       <p className="font-bold text-xl my-5">Status : <span>{car.status}</span></p>
-      {car.status === 'available'?<button  className="btn btn-outline">Book now</button>:<button disabled className="btn btn-outline">Book now</button>}
+      {car.status === 'available'?<button onClick={()=>handleBooking(car._id)}  className="btn btn-outline">Book now</button>:<button disabled className="btn btn-outline">Book now</button>}
     </div>
   </div>
 </div>

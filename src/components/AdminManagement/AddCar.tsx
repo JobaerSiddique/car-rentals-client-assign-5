@@ -2,11 +2,13 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { useAddCarMutation } from "../../redux/features/Cars/CarApi";
 import LoadingPage from "../../pages/shared/LoadingPage";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 
 const AddCar = () => {
   const cloudName = import.meta.env.VITE_CLOUD_NAME
   const cloudPreset = import.meta.env.VITE_UPLOAD_PRESET
+  const navigate = useNavigate()
   const { register, control, handleSubmit, formState: { errors },reset } = useForm();
   const { fields, append, remove } = useFieldArray({
     control,
@@ -22,39 +24,64 @@ console.log('add',data);
     console.log(error);
    
   }
-  const onSubmit = (data) => {
-    const file = data.file[0]
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset',cloudPreset);
+  
+  const onSubmit = async (data) => {
+    const file = data.file[0];
 
-    fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-      method: "POST",
-      body: formData
-    })
-    .then(res => res.json())
-    .then(imageData => {
-      const image = imageData.secure_url;
-      const newCar = {
-        name:data.name,
-        image,
-        color:data.color,
-        year: data.year,
-        pricePerHour: parseInt(data.pricePerHour),
-        features: data.features.map((feature) => feature.value),
-        description: data.description,
-        model:data.model,
-        types:data.types,
-        isElectric:data.isElectric === "Yes",
-        gps:data.gps === "Yes" ,
-        childSeat:data.childSeat === "Yes"
-      }
-      console.log(newCar);
-      addCar(newCar)
-      toast("New Car Added Successfully")
-      reset()
-    })
-  } 
+    // Create an image element to validate its dimensions
+    const img = new Image();
+    const fileReader = new FileReader();
+    
+    fileReader.onload = (e) => {
+      img.src = e.target.result;
+
+      img.onload = async () => {
+        const { width, height } = img;
+        
+        // Check if the image dimensions are 500x500
+        if (width === 500 && height === 500) {
+          const formData = new FormData();
+          formData.append('file', file);
+          formData.append('upload_preset', cloudPreset);
+
+          // Upload to Cloudinary
+          fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+            method: "POST",
+            body: formData
+          })
+            .then(res => res.json())
+            .then(imageData => {
+              const image = imageData.secure_url;
+              const newCar = {
+                name: data.name,
+                image,
+                color: data.color,
+                year: data.year,
+                pricePerHour: parseInt(data.pricePerHour),
+                features: data.features.map((feature) => feature.value),
+                description: data.description,
+                model: data.model,
+                types: data.types,
+                isElectric: data.isElectric === "Yes",
+                gps: data.gps === "Yes",
+                childSeat: data.childSeat === "Yes"
+              };
+              addCar(newCar);
+              toast("New Car Added Successfully");
+              reset();
+              navigate('/dashboard/admin/allCar')
+            });
+        } 
+        else{
+          toast.error("Image dimensions should be 500x500");
+          return;
+        }
+      };
+    };
+
+    // Read the file as a Data URL to load it in the img element
+    fileReader.readAsDataURL(file);
+  };
   
    
   
@@ -309,8 +336,8 @@ console.log('add',data);
 </label>
                         </div>
                     
-                       </div>
-                       <label className="form-control w-full my-5 ">
+   </div>
+  <label className="form-control w-full my-5 ">
   <div className="label">
     <span className="font-bold">Image <span className="text-red-600">*</span></span>
   </div>

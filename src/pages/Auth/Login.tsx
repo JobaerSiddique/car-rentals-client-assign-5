@@ -43,7 +43,7 @@ const Login = () => {
     
     return (
         <div className="flex justify-center items-center min-h-screen">
-         <div className="card bg-base-100 w-[60%] shadow-xl">
+         <div className="card bg-base-100 w-[70%] lg:w-[40%] shadow-xl">
             <h1 className="text-center font-bold text-2xl">Login</h1>
   <div className="card-body">
   <form onSubmit={handleSubmit(onSubmit)} >
@@ -77,6 +77,7 @@ const Login = () => {
         <p className="text-red-500 mt-3">password is required</p>
       )}
 </label>
+<p className="hover:underline my-6 text-end hover:text-orange-600 hover:font bold"><Link to="/forget-Password">forget Password</Link></p>
 <p className="my-3 font-bold">Are You New user? <span className="text-orange-500 hover:underline"><Link to="/signUp">Please Register</Link></span></p>
 <input className="btn btn-primary w-full my-5" type="submit" value="Login" />
   </form>

@@ -116,6 +116,7 @@ const handleReturn = (booking)=>{
         <th>Total Cost</th>
         <th>Actions</th>
         <th>Return Process</th>
+        <th>Pay</th>
       </tr>
     </thead>
     <tbody>
@@ -160,11 +161,12 @@ approve? <td >
                 
             </td>}
             <td>
-                {booking.isDeleted?<button disabled className="btn btn-outline btn-warning btn-xs">Return Car</button>:
+                {!booking.isDeleted && booking.endTime === null?<label onClick={()=>handleReturn(booking)} htmlFor="my_modal_6" className="btn btn-outline btn-warning btn-xs">Return Car</label>:<p className="text-red-500 text-xs font-bold">Car Returned</p>
                 // <label htmlFor="my_modal_6"><button onClick={()=>handleReturn(booking)} className="btn btn-outline btn-warning btn-xs">Return Car</button></label>
-                <label onClick={()=>handleReturn(booking)} htmlFor="my_modal_6" className="btn btn-outline btn-warning btn-xs">Return Car</label>
+                
                 }
             </td>
+            <td>{booking.paid ==="paid"? <p className="text-green-600 font-semibold text-sm">Paid</p>:<p className="text-red-600 font-semibold text-sm">Unpaid</p>}</td>
           </tr>)
         }
       

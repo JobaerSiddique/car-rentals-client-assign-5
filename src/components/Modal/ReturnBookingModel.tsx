@@ -4,17 +4,18 @@ import { useGetReturnCarMutation } from "../../redux/features/bookings/bookingAp
 import LoadingPage from "../../pages/shared/LoadingPage";
 
 
+
 const ReturnBookingModel = ({book}) => {
     
-    const { register, formState: { errors }, handleSubmit, getValues } = useForm();
+    const { register, formState: { errors }, handleSubmit } = useForm();
     const [carReturn,{data,isLoading,error:returnError}] =useGetReturnCarMutation()
-    
+
     const today = new Date().toISOString().split('T')[0];
     const maxDate = new Date();
     maxDate.setDate(maxDate.getDate() + 7);
     const maxDateString = maxDate.toISOString().split('T')[0];
     
-   
+   console.log({book});
     
     const onSubmit = async(data) => {
         const result = await Swal.fire({
@@ -44,10 +45,11 @@ const ReturnBookingModel = ({book}) => {
                     });
                 }
             } catch (error) {
+                console.log(error);
                 Swal.fire({
                     icon: "error",
                     title: "Oops...",
-                    text: `Failed to Approve: ${error.message}`,  // Display error if approval fails
+                    text: `Failed to Approve: ${error?.data?.message}`,  // Display error if approval fails
                 });
             }
         }
@@ -56,6 +58,8 @@ const ReturnBookingModel = ({book}) => {
     if(isLoading){
         return <LoadingPage/>
     }
+
+    
     return (
         <div>
             <input type="checkbox" id="my_modal_6" className="modal-toggle" />
@@ -112,7 +116,13 @@ className="input input-bordered w-full max-w-xs" />
 {errors.endTime && <p className="text-red-500 font-bold mt-4">{errors.endTime.message}</p>}
                                 </label>
 </div>
-<input type="submit" className="btn btn-outline btn-success w-full my-5"  value="Return Car" />
+{book.endTime === null ? (
+ <input
+ type="submit"
+className="btn btn-outline btn-success w-full my-5"
+value="Return Car" />) : 
+( <p>Car Return</p>
+                        )}
    </form>
   </div>
 </div>

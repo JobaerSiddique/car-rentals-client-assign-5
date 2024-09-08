@@ -13,7 +13,7 @@ const ConfirmBooking = () => {
     navigate(`/bookNow/${bookData?.bookData?.car?._id}`, { state: { car: bookData?.bookData?.car } });
 };
 const handleBooking = async () => {
-    // Show the SweetAlert2 dialog and wait for user confirmation
+   
     const result = await Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -47,6 +47,7 @@ const handleBooking = async () => {
                     icon: "success"
                 });
                 refetch()
+                navigate('/dashboard/my-booking')
             }
             
        

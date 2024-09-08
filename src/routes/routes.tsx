@@ -25,6 +25,8 @@ import BookingPage from "../components/Bookings/BookingPage";
 import BookNow from "../components/Bookings/BookNow";
 import ConfirmBooking from "../components/Bookings/ConfirmBooking";
 import Allbookings from "../components/Bookings/Allbookings";
+import ForgetPage from "../pages/Auth/ForgetPage";
+import ResetPassword from "../pages/Auth/ResetPassword";
 
 
 const router = createBrowserRouter([
@@ -63,6 +65,14 @@ const router = createBrowserRouter([
             {
                 path:'confirmBook',
                 element:<ProtectRoute><ConfirmBooking/></ProtectRoute>
+            },
+            {
+                path:'forget-Password',
+                element:<ForgetPage/>
+            },
+            {
+                path:'reset-Password',
+                element:<ResetPassword/>
             }
         ]
             

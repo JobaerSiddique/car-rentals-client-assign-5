@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import LoadingPage from "../../../pages/shared/LoadingPage";
 import { useDeleteUserMutation, useGetAllUsersQuery, useUpdateUserMutation } from "../../../redux/features/Admin/AdminUser";
 import { useState } from "react";
+import { useGetUserStatusMutation } from "../../../redux/features/Users/UserApi";
 
 
 
@@ -12,6 +13,7 @@ const AdminAllUser = () => {
     const {data:users=[],isLoading,isError} = useGetAllUsersQuery({page,limit})
     const [updateAdmin,{isLoading:updateLoading,error}] = useUpdateUserMutation()
     const [deleteUser,{isLoading:deleteLoading,error:deleteError}] = useDeleteUserMutation()
+    const [statusUpdate,{isLoading:statusLoading,error:statusError}] = useGetUserStatusMutation()
 console.log(users?.data?.result);
     const handleUpdate = async (id) => {
         Swal.fire({
@@ -73,10 +75,53 @@ console.log(users?.data?.result);
         });
     };
 
+    const handleStatus =async (id)=>{
+        const result = await Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes!"
+        });
+    
+        // If the user confirmed, proceed with the booking
+        if (result.isConfirmed) {
+            try {
+             
+              
+    
+                // Call the createBooking mutation
+                const res = await statusUpdate(id).unwrap();
+    
+                if(res.success){
+                    Swal.fire({
+                        title: "Blocked!",
+                        text: `${res.message}`,
+                        icon: "success"
+                    });
+                    
+                }
+                
+           
+    
+            } catch (err) {
+                
+                console.error(err);
+                Swal.fire({
+                    title: "Error!",
+                    text: `${err.data.message}`,
+                    icon: "error"
+                });
+            }
+        }
+    }
+
     const handlePageChange = (newPage) => {
         setPage(newPage);
     };
-if(isLoading || updateLoading) {
+if(isLoading || updateLoading || statusLoading) {
     return <LoadingPage/>
 }
 
@@ -103,6 +148,7 @@ if(error){
         <th>role</th>
         <th>Phone</th>
         <th>Actions</th>
+        <th>Status</th>
       </tr>
     </thead>
     <tbody>
@@ -121,7 +167,9 @@ if(error){
                 
            {user.isDelete? <button disabled className="btn btn-outline border-pink-600 btn-sm">Delete</button>: <button onClick={()=>handleDelete(user._id)} className="btn btn-outline border-pink-600 btn-sm">Delete</button>}
             </td>
+            <td>{user.status === "block" ? <p>Block</p>:<button onClick={()=>handleStatus(user._id)}  className="btn btn-outline border-pink-600 btn-sm" >Block</button>}</td>
           </tr>))
+
       }
       
       

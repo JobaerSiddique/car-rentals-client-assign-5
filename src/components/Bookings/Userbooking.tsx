@@ -19,7 +19,7 @@ const Userbooking = () => {
     return <LoadingPage/>
   }
 
-
+console.log({bookings});
 const handleBookingDelete = async (id: string) => {
     Swal.fire({
       title: "Are you sure?",
@@ -64,7 +64,7 @@ const handleUpdateBooking =(booking) =>{
         <div>
       <div className="card bg-base-100 w-auto shadow-xl">
           <div className="card-body">
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto font-bold">
                   {bookings?.data?.length > 0 ? (
                       <table className="table">
                           {/* head */}
