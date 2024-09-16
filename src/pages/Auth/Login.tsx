@@ -44,9 +44,10 @@ const Login = () => {
     }
     
     return (
-        <div className="flex justify-center items-center min-h-screen">
-         <div className="card bg-base-100 w-[70%] lg:w-[40%] shadow-xl">
-            <h1 className="text-center font-bold text-2xl">Login</h1>
+      <div >
+<div className="flex justify-center items-center min-h-screen rounded-3xl" style={{ backgroundImage: "linear-gradient(to right, #667eea, #764ba2)" }}>
+         <div className="card bg-base-100 w-[70%] lg:w-[40%] shadow-2xl">
+            <h1 className="text-center font-bold text-2xl mt-24">Login</h1>
   <div className="card-body">
   <form onSubmit={handleSubmit(onSubmit)} >
   <label className="form-control w-full my-4 ">
@@ -86,6 +87,8 @@ const Login = () => {
   </div>
 </div>
         </div>
+      </div>
+        
     );
 };
 

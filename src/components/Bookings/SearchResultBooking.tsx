@@ -20,9 +20,9 @@ const SearchResultBooking = ({ cars }) => {
         <>
             <div className="my-16 p-10">
                 {availableCars.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-14 justify-center items-center">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-14 justify-center items-center ">
                         {availableCars.map(car => (
-                            <div key={car._id} className="card glass w-auto">
+                            <div key={car._id} className="card glass w-auto animated-border">
                                 <figure>
                                     <img src={car.image} alt={car.name} />
                                 </figure>
@@ -37,7 +37,7 @@ const SearchResultBooking = ({ cars }) => {
                     </div>
                 ) : (
                     <div className="text-center">
-                        <p className="dark:text-white">No available cars at the moment.</p>
+                        <p className="dark:text-white text-2xl font-extrabold">No available cars at the moment.</p>
                     </div>
                 )}
             </div>

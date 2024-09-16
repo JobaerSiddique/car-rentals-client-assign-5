@@ -56,8 +56,8 @@ const ReviewsPage = () => {
   }
 
   return (
-    <div className="lg:my-36 px-4 py-5">
-      <h1 className="text-center text-5xl  font-bold mb-8"><span className="underline-hover text-warning text-2xl lg:text-5xl">Customer Testimonials</span></h1>
+    <div className="lg:my-36   animated-border">
+      <h1 className="text-center text-5xl p-12 font-bold mb-8"><span className="underline-hover text-warning text-2xl lg:text-5xl">Customer Testimonials</span></h1>
       <div ref={sliderRef} className="keen-slider my-10">
         {groupedReviews.map((group, index) => (
           <div  key={index} className="keen-slider__slide">

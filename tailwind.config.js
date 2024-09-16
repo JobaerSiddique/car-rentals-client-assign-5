@@ -12,7 +12,11 @@ export default {
       square: 'square',
       roman: 'upper-roman',
     },
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'gradient-to-r': 'linear-gradient(to right, #667eea, #764ba2)'
+      }
+    },
   },
   plugins: [
     require('daisyui'),

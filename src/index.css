@@ -54,3 +54,24 @@ body {
     animation: borderPulse 1.5s infinite;
     
   }
+
+  @keyframes borderAnim {
+    0% {
+      border-color: #4CAF50;
+      border-width: 2px;
+    }
+    50% {
+      border-color: #FFC107;
+      border-width: 4px;
+    }
+    100% {
+      border-color: #2196F3;
+      border-width: 2px;
+    }
+  }
+  
+  .animated-border {
+    animation: borderAnim 3s infinite ease-in-out;
+    border-radius: 20px;
+    
+  }
