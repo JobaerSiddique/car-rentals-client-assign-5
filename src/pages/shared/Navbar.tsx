@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { currentUser, logOut } from "../../redux/features/Auth/AuthSlice";
 import { useGetUserQuery } from "../../redux/features/Users/UserApi";
 import { useEffect, useState } from "react";
-
+import logo from "../../image/logocar.jpg"
 
 const Navbar = () => {
     const user = useAppSelector(currentUser)
@@ -47,7 +47,7 @@ const Navbar = () => {
      <li><Link to="/about-us">About Us</Link></li>
      
      <li><Link to="/carListing">CarListing</Link></li>
-     <li><Link to="/">Contact</Link></li>
+     <li><Link to="/contactUs">Contact</Link></li>
     {user?.role ==="user"&& <>
       <li><Link to="/booking">Booking</Link></li>
       <li><Link to="/dashboard/users">Dashboard</Link></li>
@@ -117,7 +117,13 @@ const Navbar = () => {
              {menuItems}
             </ul>
           </div>
-          <a className="btn btn-ghost text-xl">daisyUI</a>
+          <Link to='/' className="btn btn-ghost text-xl "><div className="avatar">
+  <div className="w-12 rounded-full">
+    <img src={logo} />
+    
+  </div>
+  <p className="mt-3 ml-2 ">Car Rental House</p>
+</div></Link>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">

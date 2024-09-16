@@ -4,13 +4,20 @@ import { RiDeleteBinFill } from "react-icons/ri";
 
 import Swal from "sweetalert2";
 import LoadingPage from "../../../pages/shared/LoadingPage";
+import { useState } from "react";
+import UpdateCarModel from "../../Modal/UpdateCarModel";
 
 const AllCars = () => {
     const {data,refetch} = useGetCarsQuery({})
-    
+    const [carUpdate,setCarUpdate] = useState(false)
+    const [updateCar,setUpdateCar] = useState("")
   const [deleteCar,{data:deleteData,isLoading,error}] = useDeleteCarMutation()
     
-  
+  const handleCarUpdate = (data)=>{
+    setCarUpdate(true);
+    setUpdateCar(data)
+    
+  }
   
   const handleCarDelete = async (id)=>{
       const result = await Swal.fire({
@@ -58,7 +65,8 @@ const AllCars = () => {
       return <LoadingPage/>
     }
     return (
-        <div>
+        <>
+       <div>
             <h1 className="text-center text-3xl font-bold uppercase my-10">All Cars Information </h1>
         
     <div className="card glass w-full">
@@ -104,7 +112,24 @@ const AllCars = () => {
             <td className="text-orange-500 font-bold">$ {car.pricePerHour}</td>
             <td>{car.status === 'available'? <p className="text-green-600 font-bold">{car.status}</p>:<p className="text-red-600 font-bold">{car.status}</p>}</td>
             <td className="flex justify-center items-end gap-5">
-                <button disabled={car.isDeleted} className="btn btn-outline btn-warning btn-sm"><FaRegEdit /></button>
+            {car.isDeleted ? (
+    <label 
+      className="btn btn-outline btn-warning btn-sm cursor-not-allowed opacity-50" 
+      onClick={(e) => e.preventDefault()} 
+    >
+      <FaRegEdit />
+    </label>
+  ) : (
+    <label 
+      htmlFor="my_modal_6" 
+      onClick={() => handleCarUpdate(car)} 
+      className="btn btn-outline btn-warning btn-sm"
+    >
+      <FaRegEdit />
+    </label>
+  )}
+            
+                
                 <button disabled={car.isDeleted} onClick={()=>handleCarDelete(car._id)} className="btn btn-outline btn-error btn-sm"><RiDeleteBinFill /></button>
             </td>
           </tr>)
@@ -121,7 +146,11 @@ const AllCars = () => {
 </div>
 
             
-        </div>
+        </div> 
+
+        {carUpdate &&  <UpdateCarModel car={updateCar}/>}
+        
+        </>
     );
 };
 

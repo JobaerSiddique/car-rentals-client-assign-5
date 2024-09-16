@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 
 
 const Login = () => {
-    const {register,formState: { errors },handleSubmit} = useForm()
+    const {register,formState: { errors },handleSubmit,reset} = useForm()
     const [login,{data,error,isLoading}] = useLoginMutation()
     const navigate = useNavigate()
    const dispatch = useAppDispatch()
@@ -22,6 +22,7 @@ const Login = () => {
       const res = await login(userInfo).unwrap();
       const user = verifyToken(res.data.accessToken)
       dispatch(setUser({user:user,token:res.data.accessToken}))
+      reset()
      if(user.role === 'user'){
       navigate('/dashboard/users')
       toast("user Login successful")
@@ -39,6 +40,7 @@ const Login = () => {
         html: `<span style="color: red;">${error?.data?.message}</span>`,
         
       });
+      reset()
     }
     
     return (

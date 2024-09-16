@@ -3,12 +3,14 @@ import { baseApi } from "../../api/baseApi";
 const carApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getCars: builder.query({
-      query: ({ types, minPrice, maxPrice }) => {
+      query: ({ types, minPrice, maxPrice,location, startDate, endDate }) => {
         const params: any = {};
         if (types) params.types = types;
         if (minPrice) params.minPrice = minPrice;
         if (maxPrice) params.maxPrice = maxPrice;
-
+        if (location) params.location = location;
+        if (startDate) params.startDate = startDate;
+        if (endDate) params.endDate = endDate;
         return {
           url: "cars",
           method: "GET",

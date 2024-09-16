@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
+import Swal from "sweetalert2";
 
 
 const CarList = ({cars,error,isLoading}) => {
@@ -14,17 +15,24 @@ const CarList = ({cars,error,isLoading}) => {
   }
   
     if(error){
-    return toast.error(error);
+     toast.error(error?.data?.message);
+     Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: `${error?.data?.message}`,
+     
+    });
 
 
    }
    const availableCars = cars?.data?.filter((car) => car.status === "available");
-   console.log({availableCars});
+   const deletedCar = cars?.data?.filter((car) => car.isDeleted === "false");
+   console.log({availableCars,deletedCar});
     return (
         <div className="my-12">
           <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-14 justify-items-center items-center p-6">
             {
-                availableCars?.map(car=><div key={car._id} className="card glass w-auto">
+               deletedCar&& availableCars?.map(car=><div key={car._id} className="card glass w-auto">
                     <figure>
                       <img
                         src={car.image}

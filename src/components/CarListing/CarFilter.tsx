@@ -1,20 +1,25 @@
+import { MdOutlinePriceCheck } from "react-icons/md";
 
 
 const CarFilter = ({filters,onFilterChange}) => {
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    onFilterChange({
-      ...filters,
-      [name]: value,
-    });
-  };
+ 
+console.log({filters});
+const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const { name, value } = e.target;
+  onFilterChange({
+    ...filters,
+    [name]: value,
+  });
+};
 
-  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onFilterChange({
-      ...filters,
-      maxPrice: Number(e.target.value),
-    });
-  };
+const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const { name, value } = e.target;
+  onFilterChange({
+    ...filters,
+    [name]: Number(value), 
+  });
+};
+
     
     return (
       <div className="card bg-base-100 w-full shadow-xl p-4">
@@ -27,23 +32,27 @@ const CarFilter = ({filters,onFilterChange}) => {
             onChange={handleChange}
           >
             <option value="">All Types</option>
-            <option value="suv">SUV</option>
-            <option value="hybrid">Hybrid</option>
-            <option value="sedan">Sedan</option>
+            <option value="SUV">SUV</option>
+            <option value="Hybrid">Hybrid</option>
+            <option value="Sedan">Sedan</option>
           </select>
-          <div className="w-full md:w-2/3">
+          <div className="w-full md:w-2/3 flex gap-4">
             <input
-              type="range"
-              min="0"
-              max="1000"
+              type="text"
+              name="minPrice"
+              placeholder="Min price"
+              value={filters.minPrice}
+              onChange={handlePriceChange}
+              className="input input-bordered input-primary w-full max-w-xs"
+            />
+            <input
+              type="text"
+              name="maxPrice"
+              placeholder="Max price"
               value={filters.maxPrice}
               onChange={handlePriceChange}
-              className="range range-info w-full"
-              step="50"
+              className="input input-bordered input-primary w-full max-w-xs"
             />
-            <div className="text-center mt-2 text-lg font-semibold">
-              Selected Price: ${filters.maxPrice}
-            </div>
           </div>
         </div>
       </div>

@@ -10,3 +10,47 @@ body {
     background-color: #1a202c; /* Dark background color */
     color: #ffffff; /* White text color */
   }
+
+  .underline-hover {
+    @apply text-center;
+    position: relative;
+   
+   
+    
+  }
+  
+  .underline-hover::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: currentColor;
+    color:red;
+    transition: width 0.4s ease, left 0.4s ease;
+    text-align: center;
+  }
+  
+  .underline-hover:hover::before {
+    width: 100%;
+    left: 0;
+  }
+
+  @keyframes borderPulse {
+    0% {
+      border-color: rgba(0, 255, 255, 0.5);
+    }
+    50% {
+      border-color: rgba(0, 255, 255, 1);
+    }
+    100% {
+      border-color: rgba(0, 255, 255, 0.5);
+    }
+  }
+  
+
+  .border-pulse {
+    animation: borderPulse 1.5s infinite;
+    
+  }

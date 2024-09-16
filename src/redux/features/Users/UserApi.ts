@@ -32,10 +32,21 @@ const UserApi = baseApi.injectEndpoints({
             body:data,
         }),
         invalidatesTags: ['User']
+       }),
+       resetPassword:builder.mutation({
+        query:({body,token})=>({
+            url:'auth/reset-password',
+            method:"POST",
+            body:body,
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }),
+        invalidatesTags: ['User']
        })
     })
  
 })
 
 
-export const { useGetUserQuery,useGetUpdateProfileMutation,useGetUserStatusMutation,useForgetPasswordMutation} = UserApi;
+export const { useGetUserQuery,useGetUpdateProfileMutation,useGetUserStatusMutation,useForgetPasswordMutation, useResetPasswordMutation} = UserApi;

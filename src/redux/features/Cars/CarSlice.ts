@@ -4,7 +4,8 @@ const initialState={
     types:'',
     minPrice:'',
     maxPrice:'',
-    isElectric:''
+    isElectric:'',
+    setCars:[]
 
     
 }
@@ -31,9 +32,12 @@ const carSlice = createSlice({
             state.maxPrice = '';
             state.isElectric = '';
         },
+        setCars(state, action){
+            state.setCars = action.payload;
+        }
     }
 })
 
-export const { setType, setMinPrice, setMaxPrice, setIsElectric, resetFilters } = carSlice.actions;
+export const { setType, setMinPrice, setMaxPrice, setIsElectric, resetFilters,setCars } = carSlice.actions;
 
 export default carSlice.reducer;

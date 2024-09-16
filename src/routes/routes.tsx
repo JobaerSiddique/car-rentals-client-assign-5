@@ -27,6 +27,10 @@ import ConfirmBooking from "../components/Bookings/ConfirmBooking";
 import Allbookings from "../components/Bookings/Allbookings";
 import ForgetPage from "../pages/Auth/ForgetPage";
 import ResetPassword from "../pages/Auth/ResetPassword";
+import InvoicePayment from "../components/Payment/InvoicePayment";
+import HomePage from "../pages/Home Page/HomePage";
+import TermsAndConditions from "../pages/Auth/TermsAndConditions";
+import Contact from "../pages/Contact";
 
 
 const router = createBrowserRouter([
@@ -43,12 +47,24 @@ const router = createBrowserRouter([
                 element:<SignUp/>
             },
             {
+                path:'/',
+                element:<HomePage/>
+            },
+            {
                 path:'about-us',
                 element:<AboutUs/>
             },
             {
                 path:'carListing',
                 element:<CarListing/>
+            },
+            {
+                path:'contactUs',
+                element:<Contact/>
+            },
+            {
+                path:'terms&Condtions',
+                element:<TermsAndConditions/>
             },
             {
                 path:'carInfo/:id',
@@ -73,6 +89,10 @@ const router = createBrowserRouter([
             {
                 path:'reset-Password',
                 element:<ResetPassword/>
+            },
+            {
+                path:'/invoice/:id',
+                element:<InvoicePayment/>
             }
         ]
             

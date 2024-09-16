@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useRegisterMutation } from "../../redux/features/Auth/AuthApi";
 import { toast } from "sonner";
 import LoadingPage from "../shared/LoadingPage";
+import { useState } from "react";
 
 
 const SignUp = () => {
@@ -13,6 +14,7 @@ const SignUp = () => {
    const navigate = useNavigate()
    const cloudName = import.meta.env.VITE_CLOUD_NAME
 const cloudPreset = import.meta.env.VITE_UPLOAD_PRESET
+const [terms,setTerms] = useState(false)
     const onSubmit = (data) => {
         if(data.password !== data.confirmPassword){
             toast("password is incorrect")
@@ -109,12 +111,20 @@ if(isLoading){
                         }, maxLength:{
                             value:6,
                             message:"Password must be at least 6 characters "
-                        }})}
+                        },
+                        minLength: {
+                            value: 6,
+                            message: "Password must be at least 6 characters"
+                          }
+                    })}
                     />
                    {errors.password?.type === "required" && (
         <p className="my-3 text-red-500 font-bold">{errors.password?.message}</p>
       )}
       {errors.password?.type === "maxLength" && (
+        <p className="my-3 text-red-500 font-bold">{errors.password?.message}</p>
+      )}
+      {errors.password?.type === " minLength" && (
         <p className="my-3 text-red-500 font-bold">{errors.password?.message}</p>
       )}
                 </div>
@@ -213,9 +223,28 @@ if(isLoading){
                     {errors.address?.type === "required" && (
         <p className="my-3 text-red-500 font-bold">{errors.address?.message}</p>
       )}
+        <div className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              id="terms"
+              checked={terms}
+              onChange={() => setTerms(!terms)}
+            />
+            <label htmlFor="terms" className="text-sm">
+              I accept the <Link to="/terms&Condtions" className="text-blue-600 underline">Terms & Conditions</Link>
+            </label>
+          </div>
                 </div>
-                <button type="submit" className="w-full rounded-md bg-sky-500 px-4 py-2 text-white transition-colors hover:bg-sky-600 dark:bg-sky-700">Sign Up</button>
+                <button
+            type="submit"
+            disabled={!terms}
+            className={`w-full rounded-md px-4 py-2 text-white transition-colors ${terms ? 'bg-sky-500 hover:bg-sky-600 dark:bg-sky-700' : 'bg-gray-400 cursor-not-allowed'} `}
+          >
+            Sign Up
+          </button>
             </form>
+
+          
             <p className="text-center text-sm text-zinc-700 dark:text-zinc-300">
                 Already have an account?
                 <span className="text-blue-600 font-bold ml-2"><Link to='/login' className="font-semibold underline">

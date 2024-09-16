@@ -29,9 +29,9 @@ const SearchBooking = ({onSearch}) => {
    {...register("types")} 
   className="select select-bordered">
     <option value=''>All Types</option>
-    <option>suv</option>
-    <option>hybrid</option>
-    <option>sedan</option>
+    <option>SUV</option>
+    <option>Hybrid</option>
+    <option>Sedan</option>
    
   </select>
 </label>

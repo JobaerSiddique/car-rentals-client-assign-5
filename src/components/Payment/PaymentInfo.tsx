@@ -7,106 +7,174 @@ import Lottie from "react-lottie-player";
 import LoadingPage from "../../pages/shared/LoadingPage";
 import jsPDF from "jspdf";
 import 'jspdf-autotable';
+import { useState } from "react";
+import UserReview from "../users/UserReview";
+
 
 const PaymentInfo = () => {
     
     const {data:bookings=[],isLoading,error} = useGetBookingsQuery()
-    const generatePDF = (booking) => {
-        const doc = new jsPDF('p', 'pt', 'a4'); 
-        const margin = 40;
-        const pageWidth = doc.internal.pageSize.getWidth();
+    const [review,setReview] = useState(false)
+    const [reviewBooking,setReviewBooking] = useState("")
+    // const generatePDF = (booking) => {
+    //     const doc = new jsPDF('p', 'pt', 'a4'); 
+    //     const margin = 40;
+    //     const pageWidth = doc.internal.pageSize.getWidth();
     
-        // Header - Company Name and Invoice Title
+     
+    //     doc.setFontSize(18);
+    //     doc.setTextColor(255, 255, 255);
+    //     doc.setFillColor(58, 70, 93); 
+    //     doc.rect(0, 0, pageWidth, 60, 'F');
+    //     doc.text('Company Name', margin, 40);
+    //     doc.text('INVOICE', pageWidth - margin - 80, 40);
+    
+      
+    //     doc.setFontSize(12);
+    //     doc.setTextColor(0, 0, 0);
+    //     doc.text(`Invoice #: ${booking._id}`, pageWidth - margin - 80, 80);
+    //     doc.text(`Date: ${new Date().toLocaleDateString()}`, pageWidth - margin - 80, 100);
+    
+        
+    //     const userName = booking.user && booking.user.name ? booking.user.name : 'Unknown User';
+    //     const userNameText = `UserName: ${userName}`;
+    //     const splitUserNameText = doc.splitTextToSize(userNameText, pageWidth - 2 * margin);
+    //     doc.text('Invoice to:', margin, 80);
+    //     doc.text(splitUserNameText, margin, 100);  // User's name with label displayed here
+    //     doc.text(`Phone: ${booking.user.phone}`, margin, 160);
+    
+        
+    //     doc.line(margin, 170, pageWidth - margin, 170);
+    
+       
+    //     doc.autoTable({
+    //         startY: 180,
+    //         margin: { left: margin, right: margin },
+    //         headStyles: { fillColor: [72, 168, 67] }, 
+    //         bodyStyles: { fillColor: [245, 245, 245] },
+    //         columnStyles: {
+    //             0: { cellWidth: 'auto' },
+    //             1: { cellWidth: 'auto' },
+    //             2: { cellWidth: 'auto' },
+    //             3: { cellWidth: 'auto' },
+    //             4: { cellWidth: 'auto' },
+    //         },
+    //         head: [['SL', 'Item Description', 'Duration', 'Price', 'TotalPrice']],
+    //         body: [
+    //             [1, 'Car Rental: ' + booking.car.name, booking.duration, `$${booking.car.pricePerHour}`, `$${booking.totalCost}`],
+    //         ],
+    //     });
+    
+    //     // Subtotal, Tax, Discount, and Total
+    //     const tableYPosition = doc.previousAutoTable.finalY + 20;
+    
+    //     doc.text('Sub Total:', pageWidth - margin - 100, tableYPosition);
+    //     doc.text(`$${booking.totalCost}`, pageWidth - margin, tableYPosition);
+    
+    //     doc.text('Tax:', pageWidth - margin - 100, tableYPosition + 20);
+    //     doc.text('0.00%', pageWidth - margin, tableYPosition + 20);
+    
+    //     doc.text('Discount:', pageWidth - margin - 100, tableYPosition + 40);
+    //     doc.text('0%', pageWidth - margin, tableYPosition + 40);
+    
+    //     doc.setFontSize(11);
+    //     doc.setFont('bold');
+    //     doc.setTextColor(58, 70, 93);
+    //     doc.text('Total:', pageWidth - margin - 100, tableYPosition + 60);
+    //     doc.text(`$${booking.totalCost}`, pageWidth - margin, tableYPosition + 60);
+    
+    //     // Terms & Conditions
+    //     doc.setFontSize(10);
+    //     doc.setFont('normal');
+    //     doc.setTextColor(0, 0, 0);
+    //     doc.text('Terms & Conditions', margin, tableYPosition + 100);
+    //     doc.setFontSize(8);
+    //     const termsText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna.';
+    //     const splitTermsText = doc.splitTextToSize(termsText, pageWidth - 2 * margin);
+    //     doc.text(splitTermsText, margin, tableYPosition + 115);
+    
+    //     // Footer
+    //     const footerYPosition = doc.internal.pageSize.getHeight() - 40;
+    //     doc.setFontSize(10);
+    //     doc.setTextColor(255, 255, 255);
+    //     doc.setFillColor(58, 70, 93); 
+    //     doc.rect(0, footerYPosition - 20, pageWidth, 60, 'F');
+    //     doc.text('Phone number', margin, footerYPosition);
+    //     doc.text('Address', pageWidth / 2, footerYPosition, 'center');
+    //     doc.text('NameCompany@gmail.com', pageWidth - margin, footerYPosition, 'right');
+    
+    //     // Save the PDF
+    //     doc.save(`Invoice_${booking._id}.pdf`);
+    // };
+console.log(bookings);
+const generatePDF = (booking) => {
+    console.log({booking});
+    const doc = new jsPDF();
+
+    const drawHeader = () => {
         doc.setFontSize(18);
-        doc.setTextColor(255, 255, 255);
-        doc.setFillColor(58, 70, 93); 
-        doc.rect(0, 0, pageWidth, 60, 'F');
-        doc.text('Company Name', margin, 40);
-        doc.text('INVOICE', pageWidth - margin - 80, 40);
-    
-        // Invoice Details (Invoice #, Date, and Client Info)
-        doc.setFontSize(12);
-        doc.setTextColor(0, 0, 0);
-        doc.text(`Invoice #: ${booking._id}`, pageWidth - margin - 80, 80);
-        doc.text(`Date: ${new Date().toLocaleDateString()}`, pageWidth - margin - 80, 100);
-    
-        // Displaying User's Name with Label
-        const userName = booking.user && booking.user.name ? booking.user.name : 'Unknown User';
-        const userNameText = `UserName: ${userName}`;
-        const splitUserNameText = doc.splitTextToSize(userNameText, pageWidth - 2 * margin);
-        doc.text('Invoice to:', margin, 80);
-        doc.text(splitUserNameText, margin, 100);  // User's name with label displayed here
-        doc.text(`Phone: ${booking.user.phone}`, margin, 160);
-    
-        // Draw a line under the invoice details
-        doc.line(margin, 170, pageWidth - margin, 170);
-    
-        // Table - Items
-        doc.autoTable({
-            startY: 180,
-            margin: { left: margin, right: margin },
-            headStyles: { fillColor: [72, 168, 67] }, 
-            bodyStyles: { fillColor: [245, 245, 245] },
-            columnStyles: {
-                0: { cellWidth: 'auto' },
-                1: { cellWidth: 'auto' },
-                2: { cellWidth: 'auto' },
-                3: { cellWidth: 'auto' },
-                4: { cellWidth: 'auto' },
-            },
-            head: [['SL', 'Item Description', 'Duration', 'Price', 'TotalPrice']],
-            body: [
-                [1, 'Car Rental: ' + booking.car.name, booking.duration, `$${booking.car.pricePerHour}`, `$${booking.totalCost}`],
-            ],
-        });
-    
-        // Subtotal, Tax, Discount, and Total
-        const tableYPosition = doc.previousAutoTable.finalY + 20;
-    
-        doc.text('Sub Total:', pageWidth - margin - 100, tableYPosition);
-        doc.text(`$${booking.totalCost}`, pageWidth - margin, tableYPosition);
-    
-        doc.text('Tax:', pageWidth - margin - 100, tableYPosition + 20);
-        doc.text('0.00%', pageWidth - margin, tableYPosition + 20);
-    
-        doc.text('Discount:', pageWidth - margin - 100, tableYPosition + 40);
-        doc.text('0%', pageWidth - margin, tableYPosition + 40);
-    
-        doc.setFontSize(11);
-        doc.setFont('bold');
-        doc.setTextColor(58, 70, 93);
-        doc.text('Total:', pageWidth - margin - 100, tableYPosition + 60);
-        doc.text(`$${booking.totalCost}`, pageWidth - margin, tableYPosition + 60);
-    
-        // Terms & Conditions
-        doc.setFontSize(10);
-        doc.setFont('normal');
-        doc.setTextColor(0, 0, 0);
-        doc.text('Terms & Conditions', margin, tableYPosition + 100);
-        doc.setFontSize(8);
-        const termsText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna.';
-        const splitTermsText = doc.splitTextToSize(termsText, pageWidth - 2 * margin);
-        doc.text(splitTermsText, margin, tableYPosition + 115);
-    
-        // Footer
-        const footerYPosition = doc.internal.pageSize.getHeight() - 40;
-        doc.setFontSize(10);
-        doc.setTextColor(255, 255, 255);
-        doc.setFillColor(58, 70, 93); 
-        doc.rect(0, footerYPosition - 20, pageWidth, 60, 'F');
-        doc.text('Phone number', margin, footerYPosition);
-        doc.text('Address', pageWidth / 2, footerYPosition, 'center');
-        doc.text('NameCompany@gmail.com', pageWidth - margin, footerYPosition, 'right');
-    
-        // Save the PDF
-        doc.save(`Invoice_${booking._id}.pdf`);
+        doc.setTextColor(10);
+        doc.setFont('helvetica', 'bold');
+        doc.text("Car Rental House", 105, 22, { align: "center" });
+        doc.setFillColor(153, 204, 255);
+        doc.roundedRect(10, 15, 190, 12, 3, 3, 'F');
     };
+
+    const drawFooter = () => {
+        doc.setTextColor(100);
+        doc.setFontSize(10);
+        doc.text("Phone number: 123-456-7890", 14, 280);
+        doc.text("Address: Dhaka , Dhaka, Bangladesh", 14, 285);
+        doc.text("carRentals@gmail.com", 14, 290);
+    };
+
+    const drawBody = () => {
+        doc.setFontSize(12);
+        doc.setFont('helvetica', 'normal');
+        doc.text("Invoice to:", 14, 40);
+        doc.text(`UserName: ${booking.user.name}`, 14, 48);
+        doc.text(`Phone: ${booking.user.phone}`, 14, 56);
+        doc.text(`Car Model: ${booking.car.model}`, 14, 64);
+        doc.text(`Price Per Hour: $ ${booking.car.pricePerHour}`, 14, 72);
+        doc.text(`Total Cost: $ ${booking.totalCost}`, 14, 80);
+
+        doc.autoTable({
+            startY: 90,
+            head: [[{ content: 'SL', styles: { halign: 'center', fillColor: [0, 128, 0] } },
+                    { content: 'Item Description', styles: { halign: 'center', fillColor: [0, 128, 0] } },
+                    { content: 'Duration', styles: { halign: 'center', fillColor: [0, 128, 0] } },
+                    { content: 'Price', styles: { halign: 'center', fillColor: [0, 128, 0] } },
+                    { content: 'Total Price', styles: { halign: 'center', fillColor: [0, 128, 0] } }]],
+            body: [
+                ['1', `Car Rental: ${booking.car.name} ${booking.car.model}`, `${booking.duration}`, `$ ${booking.car.pricePerHour}`, `$ ${booking.totalCost}`]
+            ],
+            theme: 'grid',
+            tableWidth: 'auto',
+            textAlign: 'center',
+        });
+    };
+
+    drawHeader();
+    drawBody();
+    drawFooter();
+
+    
+    doc.save(`Invoice_${booking._id}.pdf`);
+};
+    
+    const handleReview = (booking)=>{
+        setReview(true)
+        setReviewBooking(booking)
+    }
+     
+      
     
 
     if(isLoading){
       return <LoadingPage/>
     }
     return (
+      <>
       <div>
       <div className="card bg-base-100 w-auto shadow-xl">
           <div className="card-body">
@@ -197,7 +265,8 @@ const PaymentInfo = () => {
                                                   </button>
                                               )}
                                           </th>
-                                          <th>{booking.paid === 'paid'&& <button onClick={() => generatePDF(booking)}className="btn btn-outline btn-sm">Recipt</button>}</th>
+                                          <th>{booking.paid === 'paid'&& <button className="btn btn-outline btn-sm" onClick={()=>generatePDF(booking)}>Recipt</button>}</th>
+                                          <th>{booking.paid === 'paid'&& <label onClick={()=>handleReview(booking)} htmlFor="my_modal_6" className="btn btn-outline btn-info btn-sm">Review</label>}</th>
                                       </tr>
                                   ) :   null
                               )}
@@ -217,6 +286,9 @@ const PaymentInfo = () => {
           </div>
       </div>
   </div>
+
+  {review && <UserReview booking={reviewBooking}/>}
+      </>
     );
 };
 

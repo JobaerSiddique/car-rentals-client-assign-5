@@ -1,21 +1,49 @@
 
 import { useForm } from "react-hook-form";
+import { useUpdateBookingMutation } from "../../redux/features/bookings/bookingApi";
+import LoadingPage from "../../pages/shared/LoadingPage";
+import Swal from "sweetalert2";
+import { toast } from "sonner";
 
 
 const UpdateBookingModel = ({update}) => {
-   console.log({update});
+  
    const { register, handleSubmit, watch } = useForm();
-   
-   const onSubmit = (data) => {
-     const updateInfo ={
+   const [updateBooking,{data:updates,isLoading,isError}] =useUpdateBookingMutation()
+   const onSubmit =async (data) => {
+     
+    const updateInfo ={
       date : data.date,
      startTime:data.time
      }
-     console.log(updateInfo);
+     const res = await updateBooking({id:update._id, data: updateInfo}).unwrap();
+     console.log({res});
+       if(res?.suceess){
+           Swal.fire({
+              title: "Updated!",
+              text: `${res?.message}`,
+              icon: "success"
+           });
+        
+ 
+     }
+    toast(res?.message) 
    };
  
  
-   
+   if(isLoading){
+    return <LoadingPage/>
+   }
+
+   if(isError){
+    console.log(isError);
+    Swal.fire({
+      title: "Error!",
+      text: isError?.message,
+      icon: "error"
+    });
+    return
+   }
     return (
         <div>
             <input type="checkbox" id="my_modal_6" className="modal-toggle" />
