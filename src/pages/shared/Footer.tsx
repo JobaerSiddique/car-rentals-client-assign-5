@@ -3,11 +3,11 @@ import logo from "../../image/logocar.jpg"
 import ssl from "../../image/new ssl.png"
 const Footer = () => {
     return (
-        <div>
+        <div >
             <footer className="footer bg-black text-white p-10">
   <aside>
   <div className="avatar">
-  <div className="w-24 rounded-full">
+  <div className="lg:w-24 w-14 rounded-full">
     <img src={logo} />
   </div>
 </div>

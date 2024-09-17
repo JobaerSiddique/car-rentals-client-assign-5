@@ -56,12 +56,12 @@ const ReviewsPage = () => {
   }
 
   return (
-    <div className="lg:my-36   animated-border">
+    <div className="lg:my-10 p-8   ">
       <h1 className="text-center text-5xl p-12 font-bold mb-8"><span className="underline-hover text-warning text-2xl lg:text-5xl">Customer Testimonials</span></h1>
       <div ref={sliderRef} className="keen-slider my-10">
         {groupedReviews.map((group, index) => (
           <div  key={index} className="keen-slider__slide">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-14 justify-center items-center mx-auto p-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-14 justify-center items-center mx-auto animated-border p-5">
               {group.map((review, idx) => (
                 
                 <div key={idx} className="card  w-96 shadow-2xl">

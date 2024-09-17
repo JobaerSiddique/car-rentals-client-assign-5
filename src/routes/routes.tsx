@@ -31,6 +31,7 @@ import InvoicePayment from "../components/Payment/InvoicePayment";
 import HomePage from "../pages/Home Page/HomePage";
 import TermsAndConditions from "../pages/Auth/TermsAndConditions";
 import Contact from "../pages/Contact";
+import ReportGenerateAdmin from "../components/AdminManagement/ReportGenerateAdmin";
 
 
 const router = createBrowserRouter([
@@ -157,6 +158,10 @@ const router = createBrowserRouter([
             {
                 path:'/dashboard/admin/allBookings',
                 element:<AdminProtectRoute><Allbookings/></AdminProtectRoute>
+            },
+            {
+                path:'/dashboard/admin/reports',
+                element:<AdminProtectRoute><ReportGenerateAdmin/></AdminProtectRoute>
             }
         ]
     },

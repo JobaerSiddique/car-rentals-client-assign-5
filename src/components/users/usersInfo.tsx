@@ -47,10 +47,10 @@ const UsersInfo = () => {
   )}
 </div>
 <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 justify-between items-center inset-2">
-<p className="text-semibold dark:text-white light:bg-gradient-to-r from-blue-800 to-indigo-900 bg-clip-text ">Full Name <br /> <span className="text-black font-bold text-xl">{user?.name}</span></p>
+<p className="text-semibold dark:text-white light:bg-gradient-to-r from-blue-800 to-indigo-900 bg-clip-text ">Full Name <br /> <span className=" font-bold text-xl">{user?.name}</span></p>
 <p>Email <br /> <span className="light:text-black dark:text-white font-bold text-xl">{user?.email}</span></p>
 <p>Phone <br /> <span className="light:text-black dark:text-white font-bold text-xl">{user?.phone}</span></p>
-<p>Role <br /> <span className="light:text-black font-bold text-xl">{user?.role}</span></p>
+
 {user?.address? <p>Address <br /> <span className="light:text-black font-bold text-xl">{user?.address}</span></p>:''}
 
 

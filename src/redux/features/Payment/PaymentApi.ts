@@ -17,10 +17,16 @@ const PaymentApi= baseApi.injectEndpoints({
                 url:`payment/paymentInfo/${id}`,
                 method:"GET"
             })
+        }),
+        getPaymentHistory : builder.query({
+            query:()=>({
+                url:"/payment",
+                method:"GET"
+            })
         })
     })
 })
 
-export const {useCreatePaymentMutation,useGetPaymentInfoQuery} = PaymentApi
+export const {useCreatePaymentMutation,useGetPaymentInfoQuery,useGetPaymentHistoryQuery} = PaymentApi
 
  

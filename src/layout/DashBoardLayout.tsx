@@ -65,6 +65,7 @@ useEffect(() => {
   {
     role === "admin" &&<>
      <li><Link to='/dashboard/users'>My- Profile</Link></li>
+     <li><Link to='/dashboard/admin/reports'>Booking Reports</Link></li>
       <li><Link to ="/dashboard/admin/bookingSummery">Booking-Summery</Link></li>
       <li><Link to ="/dashboard/admin/allUser">All Users</Link></li>
      
@@ -85,6 +86,7 @@ useEffect(() => {
           </ul>
         </details>
       </li>
+
     </>
   }
 

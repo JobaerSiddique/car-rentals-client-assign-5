@@ -67,6 +67,12 @@ const bookingApi = baseApi.injectEndpoints({
         }),
         invalidatesTags: ['Bookings'],    
         
+       }),
+       reportGenerate: builder.query({
+        query:(report)=>({
+            url:`/bookings/report?report=${report}`,
+            method:"GET",
+        })
        })
     
 
@@ -74,4 +80,4 @@ const bookingApi = baseApi.injectEndpoints({
 })
 
 
-export const {useGetBookingsQuery,useGetSingleBookingsQuery,useDeleteBookingsMutation,useCreateBookingMutation, useGetAllBookingQuery, useGetApproveMutation,useGetReturnCarMutation,useUpdateBookingMutation} = bookingApi;
+export const {useGetBookingsQuery,useGetSingleBookingsQuery,useDeleteBookingsMutation,useCreateBookingMutation, useGetAllBookingQuery, useGetApproveMutation,useGetReturnCarMutation,useUpdateBookingMutation, useReportGenerateQuery} = bookingApi;

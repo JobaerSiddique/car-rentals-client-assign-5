@@ -8,10 +8,10 @@ const FeatureCar = () => {
   console.log(featureCar);
     return (
        <div className="p-10">
-         <div className="lg:my-52 border border-info rounded-3xl ">
+         <div className="lg:my-32  ">
           <h1 className="text-center lg:text-5xl text-warning font-bold my-16 text-2xl"><span className="underline-hover">Our Features Cars</span></h1>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 justify-items-center my-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 justify-items-center my-12 border border-info rounded-3xl p-10">
             {featureCar?.map(car=>
               <div className="card glass w-96">
               <figure>
