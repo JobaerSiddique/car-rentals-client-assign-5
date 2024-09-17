@@ -5,7 +5,7 @@ const FeatureCar = () => {
   const {data:cars} = useGetCarsQuery({})
   console.log(cars);
   const featureCar = cars?.data?.filter(car=> car.isFeatured === true)
-  console.log(featureCar);
+ 
     return (
        <div className="p-10">
          <div className="lg:my-32  ">
@@ -13,7 +13,7 @@ const FeatureCar = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 justify-items-center my-12 border border-info rounded-3xl p-10">
             {featureCar?.map(car=>
-              <div className="card glass w-96">
+              <div key={car._id} className="card glass w-96">
               <figure>
                 <img
                   src={car.image}
