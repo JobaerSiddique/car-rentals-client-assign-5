@@ -56,37 +56,39 @@ console.log('forget',data);
         }
     }
     return (
-        <div className="flex justify-center items-center h-screen">
+      <div className="bg-cover bg-no-repeat" style={{backgroundImage:"url('https://t3.ftcdn.net/jpg/05/59/69/16/360_F_559691636_nYRNiOMkKPA8IQNpypQHCe1DVbJubhFu.jpg')"}}>
+          <div className="flex justify-center items-center h-screen">
           
-            <div className="card glass w-auto ">
+          <div className="card glass w-auto ">
 
 
 <div className="card-body">
-    <h2 className="text-center text-xl lg:text-3xl text-orange-600 font-extrabold">Forget Password</h2>
-    <form onSubmit={handleSubmit(onSubmit)}  className="border border-cyan-500 rounded-3xl p-10 my-10">
-    <label className="form-control w-full ">
-  <div className="label">
-    <span className="label-text">Email</span>
-  </div>
-  <input 
-  type="text" 
-  placeholder="Enter your email address" 
-  {...register("email", { required: {
-    value: true,
-    message: "Email is required"
-  } })}
-  className="input input-bordered input-info w-full " />
-   {errors.email?.type === "required" && (
-        <p className="text-red-500 font-bold mt-4">{errors?.email?.message}</p>
-      )}
+  <h2 className="text-center text-xl lg:text-3xl text-orange-600 font-extrabold">Forget Password</h2>
+  <form onSubmit={handleSubmit(onSubmit)}  className="border border-cyan-500 rounded-3xl p-10 my-10">
+  <label className="form-control w-full ">
+<div className="label">
+  <span className="label-text">Email</span>
+</div>
+<input 
+type="text" 
+placeholder="Enter your email address" 
+{...register("email", { required: {
+  value: true,
+  message: "Email is required"
+} })}
+className="input input-bordered input-info w-full " />
+ {errors.email?.type === "required" && (
+      <p className="text-red-500 font-bold mt-4">{errors?.email?.message}</p>
+    )}
 
 </label>
-<input type="submit" value="Submit"  className="btn btn-outline btn-info mt-5 w-full" />
-    </form>
-  </div>
+<input type="submit" value="Submit"  className="btn  btn-warning mt-5 w-full" />
+  </form>
+</div>
 
 </div>
-        </div>
+      </div>
+      </div>
     );
 };
 

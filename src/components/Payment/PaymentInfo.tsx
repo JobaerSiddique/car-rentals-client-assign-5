@@ -9,7 +9,7 @@ import jsPDF from "jspdf";
 import 'jspdf-autotable';
 import { useState } from "react";
 import UserReview from "../users/UserReview";
-
+import paid from "../../image/pngtree-paid-stamp-vector-illustration-png-image_6585127-removebg-preview.png"
 
 const PaymentInfo = () => {
     
@@ -112,12 +112,13 @@ const generatePDF = (booking) => {
     const doc = new jsPDF();
 
     const drawHeader = () => {
-        doc.setFontSize(18);
-        doc.setTextColor(10);
+        doc.setFontSize(20);
+        doc.setTextColor(0, 0, 0); // Ensures text color is black
         doc.setFont('helvetica', 'bold');
-        doc.text("Car Rental House", 105, 22, { align: "center" });
-        doc.setFillColor(153, 204, 255);
-        doc.roundedRect(10, 15, 190, 12, 3, 3, 'F');
+        // Make sure the text is centered in the blue rectangle
+        doc.text("Car Rental House", 105, 27, { align: "center" });
+        // doc.setFillColor(153, 204, 255); // Light blue background
+        // doc.roundedRect(10, 15, 190, 12, 3, 3, 'F'); // Correct positioning of the rectangle
     };
 
     const drawFooter = () => {
@@ -152,6 +153,9 @@ const generatePDF = (booking) => {
             tableWidth: 'auto',
             textAlign: 'center',
         });
+        const centerX = (doc.internal.pageSize.getWidth() - 50) / 2; 
+        const bottomY = doc.internal.pageSize.getHeight() - 60;  
+        doc.addImage(`${paid}`, 'PNG', centerX, bottomY, 50, 50);
     };
 
     drawHeader();

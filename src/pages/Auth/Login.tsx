@@ -45,9 +45,9 @@ const Login = () => {
     
     return (
       <div >
-<div className="flex justify-center items-center min-h-screen rounded-3xl" style={{ backgroundImage: "linear-gradient(to right, #667eea, #764ba2)" }}>
-         <div className="card bg-base-100 w-[70%] lg:w-[40%] shadow-2xl">
-            <h1 className="text-center font-bold text-2xl mt-24">Login</h1>
+<div className="flex justify-center items-center min-h-screen rounded-3xl shadow-2xl" style={{ backgroundImage: "linear-gradient(to right, #667eea, #764ba2)" }}>
+         <div className="card card-glass w-[70%] lg:w-[40%] shadow-2xl">
+            <h1 className="text-center font-bold lg:text-4xl mt-24 text-orange-600">Login</h1>
   <div className="card-body">
   <form onSubmit={handleSubmit(onSubmit)} >
   <label className="form-control w-full my-4 ">
@@ -59,10 +59,13 @@ const Login = () => {
   type="email" 
   placeholder="Enter your email address" 
   className="input input-bordered w-full "
-  {...register("email", { required: true })}
+  {...register("email", { required: {
+    value: true,
+    message: "Email is required"
+  } })}
   />
   {errors.email?.type === "required" && (
-        <p className="text-red-500 mt-3">email is required</p>
+        <p className="text-red-500 mt-3">{errors?.email?.message}</p>
       )}
 </label>
   <label className="form-control w-full ">
@@ -72,12 +75,30 @@ const Login = () => {
   </div>
   <input 
   type="password" 
-  placeholder="Type here" 
+  placeholder="Enter your password" 
   className="input input-bordered w-full max-w-full "
-  {...register("password", { required: true })}
+  {...register("password", { required:{
+    value: true,
+    message: "Password is required"
+  },
+  minLength:{
+    value: 6,
+    message: "Password must be at least 6 characters"
+  },
+  maxLength:{
+    value: 6,
+    message: "Password must be at least 6 characters"
+  }
+})}
   />
  {errors.password?.type === "required" && (
-        <p className="text-red-500 mt-3">password is required</p>
+        <p className="text-red-500 mt-3">{errors?.password?.message}</p>
+      )}
+ {errors.password?.type === "minLength" && (
+        <p className="text-red-500 mt-3">{errors?.password?.message}</p>
+      )}
+ {errors.password?.type === "maxLength" && (
+        <p className="text-red-500 mt-3">{errors?.password?.message}</p>
       )}
 </label>
 <p className="hover:underline my-6 text-end hover:text-orange-600 hover:font bold"><Link to="/forget-Password">forget Password</Link></p>

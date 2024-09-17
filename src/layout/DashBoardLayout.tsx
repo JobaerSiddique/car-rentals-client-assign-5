@@ -39,7 +39,7 @@ useEffect(() => {
   {
     role === "user" &&<>
        <li><Link to='/dashboard/users'>My- Profile</Link></li>
-      <li><a>Sidebar Item 2</a></li>
+      
      
         <li>
         <details>

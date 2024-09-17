@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import logo from "../../image/logocar.jpg"
-
+import ssl from "../../image/new ssl.png"
 const Footer = () => {
     return (
         <div>
@@ -32,6 +32,12 @@ const Footer = () => {
   <nav>
   <h6 className="footer-title">Company Policy</h6>
     <Link to="/terms&Condtions" className="link link-hover">Terms of use</Link>
+   
+  </nav>
+ 
+  <nav>
+  <h6 className="footer-title ">Payment </h6>
+  <img className="lg:w-44" src={ssl} alt="" />
    
   </nav>
 </footer>

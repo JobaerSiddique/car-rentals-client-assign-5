@@ -11,7 +11,7 @@ const CarListing = () => {
     const [filters, setFilters] = useState({
         types: '',
         minPrice: '',
-        maxPrice: 2000,
+        maxPrice: '',
       });
     const {data:cars,isLoading,error}= useGetCarsQuery(filters)
     
