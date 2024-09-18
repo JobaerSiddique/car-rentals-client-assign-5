@@ -4,7 +4,7 @@ import BookingSummeryGraph from "./BookingSummeryGraph";
 
 const AdminBookingSummery = () => {
     
-    const {data}  = useGetBookingSummeryQuery()
+    const {data}  = useGetBookingSummeryQuery(undefined)
     console.log(data?.data);
     const datas = [
 

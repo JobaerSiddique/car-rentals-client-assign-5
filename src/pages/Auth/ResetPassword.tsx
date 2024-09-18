@@ -3,6 +3,17 @@ import { useForm } from "react-hook-form";
 import { useResetPasswordMutation } from "../../redux/features/Users/UserApi";
 import Swal from "sweetalert2";
 import LoadingPage from "../shared/LoadingPage";
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+
+// Utility to check if the error is a FetchBaseQueryError
+const isFetchBaseQueryError = (error: any): error is FetchBaseQueryError => {
+  return error && typeof error === 'object' && 'data' in error;
+};
+
+// Utility to check if error.data is of type { message: string }
+const hasMessage = (data: any): data is { message: string } => {
+  return data && typeof data === 'object' && 'message' in data;
+};
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -13,23 +24,32 @@ const ResetPassword = () => {
   const [reset, { isLoading, error }] = useResetPasswordMutation();
   const navigate = useNavigate();
   const query = useQuery();
-  
-  
   const token = query.get('token');
 
-  // console.log({data});
   if (isLoading) {
     return <LoadingPage />;
   }
- 
+
   if (error) {
-    Swal.fire({
-      title: "Error!",
-      text: error?.data?.message,
-      icon: "error"
-    });
+    if (isFetchBaseQueryError(error)) {
+      // Type guard for the presence of a message field in error.data
+      const errorMessage = hasMessage(error.data) ? error.data.message : "An unknown error occurred";
+
+      Swal.fire({
+        title: "Error!",
+        text: errorMessage,
+        icon: "error"
+      });
+    } else {
+      Swal.fire({
+        title: "Error!",
+        text: "An unknown error occurred",
+        icon: "error"
+      });
+    }
   }
-  const onSubmit = async (formData) => {
+
+  const onSubmit = async (formData: any) => {
     const result = await Swal.fire({
       title: "Are you sure?",
       text: "Do you want to reset your password?",
@@ -46,7 +66,6 @@ const ResetPassword = () => {
           throw new Error("Token is missing.");
         }
 
-        
         const payload = {
           email: formData.email,
           password: formData.password
@@ -54,10 +73,8 @@ const ResetPassword = () => {
         const res = await reset({
           body: payload,
           token: token
-        })
-        
-       
-      
+        });
+
         if (res?.data?.success) {
           Swal.fire({
             title: "Success!",
@@ -67,12 +84,7 @@ const ResetPassword = () => {
           navigate('/login');
         }
       } catch (err) {
-        console.log('err',err);
-        // Swal.fire({
-        //   title: "Error!",
-        //   text: err?.error?.data?.message ,
-        //   icon: "error"
-        // });
+        console.error('err', err);
       }
     }
   };

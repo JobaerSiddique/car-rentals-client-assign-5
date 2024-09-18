@@ -17,7 +17,7 @@ const DashBoardLayout = () => {
  
   const dispatch = useAppDispatch()
   const [theme, setTheme] = useState('light');
-  const {data} = useGetUserQuery()
+  const {data} = useGetUserQuery(undefined)
   const handleLogout = () => {
     dispatch(logOut())
 }

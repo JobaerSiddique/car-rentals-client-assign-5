@@ -6,10 +6,10 @@ import ReturnBookingModel from "../Modal/ReturnBookingModel";
 
 
 const Allbookings = () => {
-   const {data,isLoading:bookingLoading,error:bookingError} = useGetAllBookingQuery()
+   const {data,isLoading:bookingLoading,error:bookingError} = useGetAllBookingQuery(undefined)
    const [approve,{isLoading:approveLoading}] = useGetApproveMutation()
    const [deleteBooking,{isLoading:deleteLoading}] =useDeleteBookingsMutation()
-    const {refetch} = useGetBookingsQuery()
+    const {refetch} = useGetBookingsQuery('')
     const [returnModal,setReturnModal]=useState(false)
     const [returnBook,setReturnBook] = useState("")
 // approve handeling

@@ -58,8 +58,21 @@ const [terms,setTerms] = useState(false)
 if(isLoading){
     return <LoadingPage/>
 }
-if(error){
-    toast(error?.data?.message)
+if (error) {
+    let errorMessage = "An error occurred";
+
+    
+    if (typeof error === 'object' && error !== null) {
+       
+        if ('data' in error && error.data && typeof error.data === 'object' && 'message' in error.data) {
+            errorMessage = (error.data as { message?: string }).message || errorMessage;
+        } 
+        else if ('message' in error) {
+            errorMessage = (error as { message?: string }).message || errorMessage;
+        }
+    }
+
+    toast(errorMessage);
 }
     return (
         <div className="flex justify-center items-center min-h-screen ">
@@ -80,7 +93,7 @@ if(error){
                         }})}
                     />
                     {errors.Name?.type === "required" && (
-        <p className="my-3 text-red-500 font-bold">{errors.Name?.message}</p>
+        <p className="my-3 text-red-500 font-bold">{String(errors.Name?.message)}</p>
       )}
                 </div>
                 <div className="space-y-2 text-sm text-zinc-700 dark:text-zinc-300">
@@ -97,7 +110,7 @@ if(error){
                         }})}
                     />
                     {errors.email?.type === "required" && (
-        <p className="my-3 text-red-500 font-bold">{errors.email?.message}</p>
+        <p className="my-3 text-red-500 font-bold">{String(errors.email?.message)}</p>
       )}
                 </div>
                 <div className="space-y-2 text-sm text-zinc-700 dark:text-zinc-300">
@@ -122,13 +135,13 @@ if(error){
                     })}
                     />
                    {errors.password?.type === "required" && (
-        <p className="my-3 text-red-500 font-bold">{errors.password?.message}</p>
+        <p className="my-3 text-red-500 font-bold">{String(errors.password?.message)}</p>
       )}
       {errors.password?.type === "maxLength" && (
-        <p className="my-3 text-red-500 font-bold">{errors.password?.message}</p>
+        <p className="my-3 text-red-500 font-bold">{String(errors.password?.message)}</p>
       )}
       {errors.password?.type === " minLength" && (
-        <p className="my-3 text-red-500 font-bold">{errors.password?.message}</p>
+        <p className="my-3 text-red-500 font-bold">{String(errors.password?.message)}</p>
       )}
                 </div>
                 <div className="space-y-2 text-sm text-zinc-700 dark:text-zinc-300">
@@ -148,10 +161,10 @@ if(error){
                         }})}
                     />
         {errors.confirmPassword?.type === "required" && (
-        <p className="my-3 text-red-500 font-bold">{errors.confirmPassword?.message}</p>
+        <p className="my-3 text-red-500 font-bold">{String(errors.confirmPassword?.message)}</p>
       )}
       {errors.confirmPassword?.type === "maxLength" && (
-        <p className="my-3 text-red-500 font-bold">{errors.confirmPassword?.message}</p>
+        <p className="my-3 text-red-500 font-bold">{String(errors.confirmPassword?.message)}</p>
       )}
                 </div>
                 <div className="space-y-2 text-sm text-zinc-700 dark:text-zinc-300">
@@ -180,16 +193,16 @@ if(error){
                     })}
                     />
             {errors.phone?.type === "required" && (
-        <p className="my-3 text-red-500 font-bold">{errors.phone?.message}</p>
+        <p className="my-3 text-red-500 font-bold">{String(errors.phone?.message)}</p>
       )}
       {errors.phone?.type === "maxLength" && (
-        <p className="my-3 text-red-500 font-bold">{errors.phone?.message}</p>
+        <p className="my-3 text-red-500 font-bold">{String(errors.phone?.message)}</p>
       )}   
       {errors.phone?.type === "pattern" && (
-        <p className="my-3 text-red-500 font-bold">{errors.phone?.message}</p>
+        <p className="my-3 text-red-500 font-bold">{String(errors.phone?.message)}</p>
       )}   
       {errors.phone?.type === "minLength" && (
-        <p className="my-3 text-red-500 font-bold">{errors.phone?.message}</p>
+        <p className="my-3 text-red-500 font-bold">{String(errors.phone?.message)}</p>
       )}   
 
                 </div>
@@ -207,7 +220,7 @@ if(error){
                         }})}
                     />
                     {errors.file?.type === "required" && (
-        <p className="my-3 text-red-500 font-bold">{errors.file?.message}</p>
+        <p className="my-3 text-red-500 font-bold">{String(errors.file?.message)}</p>
       )}
                 </div>
                 <div className="space-y-2 text-sm text-zinc-700 dark:text-zinc-300">
@@ -224,7 +237,7 @@ if(error){
                         }})}
                     />
                     {errors.address?.type === "required" && (
-        <p className="my-3 text-red-500 font-bold">{errors.address?.message}</p>
+        <p className="my-3 text-red-500 font-bold">{String(errors.address?.message)}</p>
       )}
         <div className="flex items-center space-x-2">
             <input

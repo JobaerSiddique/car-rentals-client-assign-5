@@ -8,7 +8,7 @@ import logo from "../../image/logocar.jpg"
 const Navbar = () => {
     const user = useAppSelector(currentUser)
     const dispatch = useAppDispatch()
-  const {data} = useGetUserQuery()
+  const {data} = useGetUserQuery(undefined)
   const [theme, setTheme] = useState('light');
   // const [isDarkMode, setIsDarkMode] = useState(false);
   console.log(data);

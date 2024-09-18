@@ -11,7 +11,7 @@ import Swal from "sweetalert2";
 
 const Login = () => {
     const {register,formState: { errors },handleSubmit,reset} = useForm()
-    const [login,{data,error,isLoading}] = useLoginMutation()
+    const [login,{error}] = useLoginMutation()
     const navigate = useNavigate()
    const dispatch = useAppDispatch()
     const onSubmit = async(data) => {
@@ -33,14 +33,20 @@ const Login = () => {
      }
     };
 
-    if(error){
+    if (error) {
+      let errorMessage = 'An unexpected error occurred';
+      if ('data' in error) {
+        errorMessage = (error as { data: { message: string } }).data.message;
+      } else if ('message' in error) {
+        errorMessage = (error as { message: string }).message;
+      }
+    
       Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        html: `<span style="color: red;">${error?.data?.message}</span>`,
-        
+        icon: 'error',
+        title: 'Oops...',
+        html: `<span style="color: red;">${errorMessage}</span>`,
       });
-      reset()
+      reset();
     }
     
     return (
@@ -65,7 +71,7 @@ const Login = () => {
   } })}
   />
   {errors.email?.type === "required" && (
-        <p className="text-red-500 mt-3">{errors?.email?.message}</p>
+        <p className="text-red-500 mt-3">{String(errors?.email?.message)}</p>
       )}
 </label>
   <label className="form-control w-full ">
@@ -92,13 +98,13 @@ const Login = () => {
 })}
   />
  {errors.password?.type === "required" && (
-        <p className="text-red-500 mt-3">{errors?.password?.message}</p>
+        <p className="text-red-500 mt-3">{String(errors?.password?.message)}</p>
       )}
  {errors.password?.type === "minLength" && (
-        <p className="text-red-500 mt-3">{errors?.password?.message}</p>
+        <p className="text-red-500 mt-3">{String(errors?.password?.message)}</p>
       )}
  {errors.password?.type === "maxLength" && (
-        <p className="text-red-500 mt-3">{errors?.password?.message}</p>
+        <p className="text-red-500 mt-3">{String(errors?.password?.message)}</p>
       )}
 </label>
 <p className="hover:underline my-6 text-end hover:text-orange-600 hover:font bold"><Link to="/forget-Password">forget Password</Link></p>

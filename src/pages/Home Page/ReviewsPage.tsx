@@ -6,6 +6,7 @@ import "keen-slider/keen-slider.min.css";
 import { useKeenSlider } from "keen-slider/react"; 
 
 
+
 interface User {
   name: string;
   image: string;
@@ -19,7 +20,7 @@ interface Review {
 
 
 const ReviewsPage = () => {
-  const { data: reviews  } = useGetReviewQuery<Review[]>();
+  const { data: reviews  } = useGetReviewQuery(undefined);
     console.log({reviews});
   const [sliderRef] = useKeenSlider({
     loop: true,
@@ -31,6 +32,8 @@ const ReviewsPage = () => {
     },
   });
 
+
+  
   const renderStars = (rating:number) => {
     const fullStars = Math.floor(rating);
     const halfStar = rating % 1 >= 0.5;

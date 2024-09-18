@@ -18,102 +18,105 @@ const UpdateCarModel = ({car}) => {
 
 
   const onSubmit = async (data) => {
+    if (data.file && data.file.length > 0) {
+      const file = data.file[0];
+      if (file instanceof Blob) {
+        const img = new Image();
+        const fileReader = new FileReader();
   
- 
-  if (data.file && data.file.length > 0) {
-    const file = data.file[0]; 
-    if (file instanceof Blob) { 
-      const img = new Image();
-      const fileReader = new FileReader();
-      
-      fileReader.onload = (e) => {
-        img.src = e.target.result;
-
-        img.onload = async () => {
-          const { width, height } = img;
-
-          if (width === 500 && height === 500) {
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append('upload_preset', cloudPreset);
-
-            try {
-              const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-                method: "POST",
-                body: formData
-              });
-              const imageData = await response.json();
-              const image = imageData.secure_url;
-              const newCar = {
-                name: data.name,
-                image,
-                color: data.color,
-                year: data.year,
-                pricePerHour: parseInt(data.pricePerHour),
-                features: data.features.map((feature) => feature.value),
-                description: data.description,
-                model: data.model,
-                types: data.types,
-                isElectric: data.isElectric === "Yes",
-                gps: data.gps === "Yes",
-                childSeat: data.childSeat === "Yes"
-              };
-              const res = await updateCar({ id: car.id, data: newCar }).unwrap();
-              console.log(res);
-              if(res.success){
-                toast(res.message)
-                reset();
+        fileReader.onload = (e) => {
+          // Type guard to check if result is a string
+          const result = e.target.result;
+          if (typeof result === 'string') {
+            img.src = result;
+  
+            img.onload = async () => {
+              const { width, height } = img;
+  
+              if (width === 500 && height === 500) {
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('upload_preset', cloudPreset);
+  
+                try {
+                  const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+                    method: "POST",
+                    body: formData
+                  });
+                  const imageData = await response.json();
+                  const image = imageData.secure_url;
+                  const newCar = {
+                    name: data.name,
+                    image,
+                    color: data.color,
+                    year: data.year,
+                    pricePerHour: parseInt(data.pricePerHour),
+                    features: data.features.map((feature) => feature.value),
+                    description: data.description,
+                    model: data.model,
+                    types: data.types,
+                    isElectric: data.isElectric === "Yes",
+                    gps: data.gps === "Yes",
+                    childSeat: data.childSeat === "Yes"
+                  };
+                  const res = await updateCar({ id: car.id, data: newCar }).unwrap();
+                  console.log(res);
+                  if(res.success){
+                    toast(res.message)
+                    reset();
+                  }
+                } catch (error) {
+                  console.error('Image upload failed:', error);
+                }
+              } else {
+                const newCar = {
+                  name: data.name,
+                  color: data.color,
+                  year: data.year,
+                  pricePerHour: parseInt(data.pricePerHour),
+                  features: data.features.map((feature) => feature.value),
+                  description: data.description,
+                  model: data.model,
+                  types: data.types,
+                  isElectric: data.isElectric === "Yes",
+                  gps: data.gps === "Yes",
+                  childSeat: data.childSeat === "Yes"
+                };
+                const res = await updateCar({ id: car.id, data: newCar }).unwrap();
+                console.log({res});
+                if(res.success){
+                  toast(res.message)
+                  reset();
+                }
               }
-
-            } catch (error) {
-              console.error('Image upload failed:', error);
-            }
-          } else {
-            const newCar = {
-              name: data.name,
-              color: data.color,
-              year: data.year,
-              pricePerHour: parseInt(data.pricePerHour),
-              features: data.features.map((feature) => feature.value),
-              description: data.description,
-              model: data.model,
-              types: data.types,
-              isElectric: data.isElectric === "Yes",
-              gps: data.gps === "Yes",
-              childSeat: data.childSeat === "Yes"
             };
-            const res = await updateCar({ id: car.id, data: newCar }).unwrap();
-            console.log({res});
-              if(res.success){
-                toast(res.message)
-                reset();
-              }
+          } else {
+            console.error('Image load failed. Result is not a string.');
           }
         };
-      };
-
-      fileReader.readAsDataURL(file);
+  
+        fileReader.readAsDataURL(file);
+      } else {
+        console.error('Selected file is not valid.');
+      }
     } else {
-      console.error('Selected file is not valid.');
+      // Handle cases where no file is selected
+      const newCar = {
+        name: data.name,
+        color: data.color,
+        year: data.year,
+        pricePerHour: parseInt(data.pricePerHour),
+        features: data.features.map((feature) => feature.value),
+        description: data.description,
+        model: data.model,
+        types: data.types,
+        isElectric: data.isElectric === "Yes",
+        gps: data.gps === "Yes",
+        childSeat: data.childSeat === "Yes"
+      };
+      updateCar({ id: car._id, data: newCar });
     }
-  } else {
-    // Handle cases where no file is selected
-    const newCar = {
-      name: data.name,
-      color: data.color,
-      year: data.year,
-      pricePerHour: parseInt(data.pricePerHour),
-      features: data.features.map((feature) => feature.value),
-      description: data.description,
-      model: data.model,
-      types: data.types,
-      isElectric: data.isElectric === "Yes",
-      gps: data.gps === "Yes",
-      childSeat: data.childSeat === "Yes"
-    };
-    updateCar({ id: car._id, data: newCar });
-  }
-};
+  };
   return (
         <div>
             <input type="checkbox" id="my_modal_6" className="modal-toggle" />

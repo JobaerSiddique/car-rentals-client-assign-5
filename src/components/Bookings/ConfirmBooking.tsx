@@ -9,7 +9,7 @@ const ConfirmBooking = () => {
    const location = useLocation()
    const bookData = location.state
    const navigate = useNavigate()
-   const {refetch} =useGetAllBookingQuery()
+   const {refetch} =useGetAllBookingQuery(undefined)
    const [bookings,{isLoading}] = useCreateBookingMutation()
    const handleBack = () => {
     navigate(`/bookNow/${bookData?.bookData?.car?._id}`, { state: { car: bookData?.bookData?.car } });

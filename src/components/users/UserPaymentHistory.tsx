@@ -2,7 +2,7 @@ import { useGetPaymentHistoryQuery } from "../../redux/features/Payment/PaymentA
 
 
 const UserPaymentHistory = () => {
-    const {data:info} = useGetPaymentHistoryQuery()
+    const {data:info} = useGetPaymentHistoryQuery(undefined)
    
     const booking = info?.data?.bookingId;
     const user = booking?.user;

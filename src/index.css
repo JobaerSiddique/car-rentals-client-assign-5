@@ -75,3 +75,18 @@ body {
     border-radius: 20px;
     
   }
+
+  .carousel-image-wrapper {
+    overflow: hidden;
+  }
+  
+  .carousel-image {
+    transition: transform 0.3s ease;
+    width: 100%; /* Ensure the image takes up full width */
+    height: auto; /* Maintain aspect ratio */
+  }
+  
+  .carousel-image-wrapper:hover .carousel-image {
+    transform: scale(1.5);
+  }
+  
