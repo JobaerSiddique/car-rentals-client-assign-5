@@ -17,7 +17,8 @@ const reviewApi = baseApi.injectEndpoints({
         query:()=>({
             url:'/reviews',
             method:"GET"
-        })
+        }),
+        providesTags:['Review']
        })
     })
 })

@@ -1,15 +1,22 @@
 import Lottie from "react-lottie-player";
 import contactAnimation from "../../contact.json"
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useCreateContactMutation } from "../redux/features/Contact/ContactApi";
 import { toast } from "sonner";
 import { useState } from "react";
+import LoadingPage from "./shared/LoadingPage";
+
+interface ContactFormData {
+  name: string;
+  email: string;
+  message: string;
+}
 
 const Contact = () => {
   const {register,formState: { errors },handleSubmit} = useForm() 
-  const [contacts,{data:contactInfo,isLoading,error}] = useCreateContactMutation()
+  const [contacts,{isLoading}] = useCreateContactMutation()
   const [apiError, setApiError] = useState(''); 
-  const onSubmit =async (data) => {
+  const onSubmit: SubmitHandler<ContactFormData> = async (data) => {
     try {
       const contactData = {
         name: data.name,
@@ -19,23 +26,23 @@ const Contact = () => {
       const res = await contacts(contactData).unwrap();
       toast(res.message, {
         position: "top-center",
-        autoClose: 1000,
-        hideProgressBar: false,
-        type: "success"
+       
       });
     } catch (error) {
-      setApiError(error.data?.message || 'An unexpected error occurred');  
-      toast("Error: " + (error.data?.message || 'An unexpected error occurred'), {
+      
+      const typedError = error as { data?: { message?: string } };
+      setApiError(typedError.data?.message || 'An unexpected error occurred');
+      toast("Error: " + (typedError.data?.message || 'An unexpected error occurred'), {
         position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        type: "error"
+        
+       
       });
     }
-    
-  }
+  };
 
-  console.log("cc",contactInfo);
+ if(isLoading) {
+  return <LoadingPage/>
+ }
   return (
         <div>
             <div className="hero bg-slate-100 min-h-screen shadow-2xl rounded-3xl ">
@@ -44,10 +51,10 @@ const Contact = () => {
              loop
              animationData={contactAnimation}
              play
-             style={{ width: 300, height: 300 }}
+             style={{ width: 400, height: 400 }}
            />
     <div className="ml-10 ">
-      <h1 className="lg:text-3xl text-xl font-bold">Contact Please If You Need</h1>
+      <h1 className="lg:text-3xl text-xl font-bold text-orange-600">Contact Please If You Need</h1>
       {apiError && (
             <div className="text-red-500 text-center mt-2 font-bold">{apiError}</div>
           )}

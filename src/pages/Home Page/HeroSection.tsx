@@ -1,18 +1,27 @@
+// @ts-ignore
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { useGetCarsQuery } from '../../redux/features/Cars/CarApi';
 import { useState } from 'react';
 import SearchResultBooking from '../../components/Bookings/SearchResultBooking';
 
+interface SearchCriteria {
+    location?: string;
+    startDate?: string;
+    endDate?: string;
+    types?: string;
+  }
+
+
 const HeroSection = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const [searchCriteria, setSearchCriteria] = useState();
+    const [searchCriteria, setSearchCriteria] = useState<SearchCriteria | undefined>(undefined);
     
-    const { data: cars, refetch, isLoading, error } = useGetCarsQuery(searchCriteria, {
+    const { data: cars } = useGetCarsQuery(searchCriteria, {
         skip: !searchCriteria,
     });
 
-    const onSubmit = (data) => {
+    const onSubmit = (data:any) => {
         const query = {
             location: data.location,
             startDate: data.startDate,
@@ -21,7 +30,7 @@ const HeroSection = () => {
         }
         setSearchCriteria(query);
     };
-console.log("hh",cars);
+
     return (
        <>
         <section
@@ -56,7 +65,7 @@ console.log("hh",cars);
                                     className="input input-bordered input-info w-full text-slate-600"
                                 />
                                 {errors.location && (
-                                    <p className="text-red-600 mt-2 font-semibold">{errors.location.message}</p>
+                                    <p className="text-red-600 mt-2 font-semibold">{String(errors.location.message)}</p>
                                 )}
                             </div>
                             <div className="form-control w-full ">
@@ -72,7 +81,7 @@ console.log("hh",cars);
                                     className="input input-bordered input-info text-slate-600 w-full"
                                 />
                                 {errors.startDate && (
-                                    <p className="text-red-600 mt-2 font-semibold">{errors.startDate.message}</p> 
+                                    <p className="text-red-600 mt-2 font-semibold">{String(errors.startDate.message)}</p> 
                                 )}
                             </div>
                             <div className="form-control w-full ">
@@ -88,7 +97,7 @@ console.log("hh",cars);
                                     className="input input-bordered input-info text-slate-600  w-full"
                                 />
                                 {errors.endDate && (
-                                    <p className="text-red-600 mt-2 font-semibold">{errors.endDate.message}</p>
+                                    <p className="text-red-600 mt-2 font-semibold">{String(errors.endDate.message)}</p>
                                 )}
                             </div>
                             <div className="form-control w-full ">
@@ -108,7 +117,7 @@ console.log("hh",cars);
                                     <option>Hybrid</option>
                                 </select>
                                 {errors.types && (
-                                    <p className="text-red-600 mt-2 font-semibold">{errors.types.message}</p>
+                                    <p className="text-red-600 mt-2 font-semibold">{String(errors.types.message)}</p>
                                 )}
                             </div>
                             <div className="form-control w-full">

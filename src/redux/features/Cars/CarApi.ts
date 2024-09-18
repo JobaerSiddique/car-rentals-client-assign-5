@@ -3,7 +3,7 @@ import { baseApi } from "../../api/baseApi";
 const carApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getCars: builder.query({
-      query: ({ types, minPrice, maxPrice,location, startDate, endDate }) => {
+      query: ({ types, minPrice, maxPrice, location, startDate, endDate }) => {
         const params: any = {};
         if (types) params.types = types;
         if (minPrice) params.minPrice = minPrice;
@@ -17,15 +17,14 @@ const carApi = baseApi.injectEndpoints({
           params,
         };
       },
-      providesTags: ['Car']
-        
+      providesTags: ['Car'],
     }),
     getCarsById: builder.query({
       query: (id) => ({
         url: `cars/${id}`,
         method: "GET",
       }),
-      providesTags: (result, error, id) => [{ type: 'Car', id }],
+      providesTags: ['Car'],
     }),
     addCar: builder.mutation({
       query: (newCar) => ({
@@ -35,15 +34,28 @@ const carApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [{ type: 'Car', id: 'LIST' }],
     }),
-    deleteCar : builder.mutation({
-      query:(id)=>({
-        url:`/cars/${id}`,
-        method:"DELETE"
+    deleteCar: builder.mutation({
+      query: (id) => ({
+        url: `/cars/${id}`,
+        method: "DELETE",
       }),
-      invalidatesTags: (result, error, id) => [{ type: 'Car', id }],
+      invalidatesTags: [{ type: 'Car', id: 'LIST' }],
+    }),
+    updateCar: builder.mutation({
+      query:({id,data})=>({
+        url:`cars/${id}`,
+        method:"PUT",
+        body:data
+      }),
+      invalidatesTags: [{ type: 'Car', id: 'LIST' }],
     })
-   
   }),
 });
 
-export const { useGetCarsQuery, useGetCarsByIdQuery, useAddCarMutation,useDeleteCarMutation } = carApi;
+export const {
+  useGetCarsQuery,
+  useGetCarsByIdQuery,
+  useAddCarMutation,
+  useDeleteCarMutation,
+  useUpdateCarMutation
+} = carApi;

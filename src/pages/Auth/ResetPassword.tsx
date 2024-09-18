@@ -10,7 +10,7 @@ function useQuery() {
 
 const ResetPassword = () => {
   const { register, formState: { errors }, handleSubmit } = useForm();
-  const [reset, { data, isLoading, error }] = useResetPasswordMutation();
+  const [reset, { isLoading, error }] = useResetPasswordMutation();
   const navigate = useNavigate();
   const query = useQuery();
   
@@ -93,7 +93,7 @@ const ResetPassword = () => {
                 {...register("email", { required: "Email is required" })}
                 className="input input-bordered input-info w-full"
               />
-              {errors.email && <p className="text-red-500 font-bold mt-4">{errors.email.message}</p>}
+              {errors.email && <p className="text-red-500 font-bold mt-4">{String(errors.email.message)}</p>}
             </label>
 
             <label className="form-control w-full">
@@ -112,7 +112,7 @@ const ResetPassword = () => {
                 })}
                 className="input input-bordered input-info w-full"
               />
-              {errors.password && <p className="text-red-500 font-bold mt-4">{errors.password.message}</p>}
+              {errors.password && <p className="text-red-500 font-bold mt-4">{String(errors.password.message)}</p>}
             </label>
 
             <input type="submit" value="Submit" className="btn btn-outline btn-info mt-5 w-full" />

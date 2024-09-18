@@ -19,7 +19,7 @@ const bookingApi = baseApi.injectEndpoints({
             url:`/bookings/${id}`,
             method:"GET",
         }),
-        providesTags: (result, error, id) => [{ type: 'Bookings', id }]
+        providesTags: ['Bookings']
     
        }),
        deleteBookings : builder.mutation({
@@ -27,7 +27,7 @@ const bookingApi = baseApi.injectEndpoints({
             url:`bookings/${id}`,
             method:"DELETE",
         }),
-        invalidatesTags: (result, error, id) => [{ type: 'Bookings', id }, 'Bookings']
+        invalidatesTags: ['Bookings']
        }),
        createBooking : builder.mutation({
         query:(book)=>({

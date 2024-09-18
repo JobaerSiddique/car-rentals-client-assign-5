@@ -2,13 +2,14 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { useGetReturnCarMutation } from "../../redux/features/bookings/bookingApi";
 import LoadingPage from "../../pages/shared/LoadingPage";
+import { toast } from "sonner";
 
 
 
-const ReturnBookingModel = ({book}) => {
+const ReturnBookingModel = ({book}:any) => {
     
     const { register, formState: { errors }, handleSubmit } = useForm();
-    const [carReturn,{data,isLoading,error:returnError}] =useGetReturnCarMutation()
+    const [carReturn,{isLoading,error:returnError}] =useGetReturnCarMutation()
 
     const today = new Date().toISOString().split('T')[0];
     const maxDate = new Date();
@@ -25,7 +26,7 @@ const ReturnBookingModel = ({book}) => {
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, approve it!"
+            confirmButtonText: "Yes"
         });
    
         if (result.isConfirmed) {
@@ -35,7 +36,7 @@ const ReturnBookingModel = ({book}) => {
                 endTime:data.endTime,
                 endDate:data.date
               }
-                const res = await carReturn (returns).unwrap();  // Await the approve mutation
+                const res = await carReturn (returns).unwrap();  
                 console.log({res});
                 if (res?.success) {
                     Swal.fire({
@@ -44,12 +45,12 @@ const ReturnBookingModel = ({book}) => {
                         icon: "success"
                     });
                 }
-            } catch (error) {
+            } catch (error ) {
                 console.log(error);
                 Swal.fire({
                     icon: "error",
                     title: "Oops...",
-                    text: `Failed to Approve: ${error?.data?.message}`,  // Display error if approval fails
+                    text: `Failed to Approve: ${error?.data?.message}`,  
                 });
             }
         }
@@ -58,7 +59,9 @@ const ReturnBookingModel = ({book}) => {
     if(isLoading){
         return <LoadingPage/>
     }
-
+if(returnError){
+    toast(returnError?.data?.message)
+}
     
     return (
         <div>
@@ -97,7 +100,7 @@ message: "Date is required"
 } 
 })} 
 className="input input-bordered w-full max-w-xs" />
-{errors.date && <p className="text-red-500 font-bold mt-4">{errors.date.message}</p>}
+{errors.date && <p className="text-red-500 font-bold mt-4">{String(errors.date.message)}</p>}
 </label>
    
    
@@ -113,7 +116,7 @@ value: true,
 message: "End Time is required" } 
 })} 
 className="input input-bordered w-full max-w-xs" />
-{errors.endTime && <p className="text-red-500 font-bold mt-4">{errors.endTime.message}</p>}
+{errors.endTime && <p className="text-red-500 font-bold mt-4">{String(errors.endTime.message)}</p>}
                                 </label>
 </div>
 {book.endTime === null ? (

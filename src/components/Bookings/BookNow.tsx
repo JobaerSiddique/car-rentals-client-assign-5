@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 const BookNow = () => {
     const location = useLocation();
     const { car } = location.state;
-    const { register, formState: { errors }, handleSubmit, getValues } = useForm();
+    const { register, formState: { errors }, handleSubmit, getValues } = useForm<BookNowFormData>();
     const navigate = useNavigate();
    
     const today = new Date().toISOString().split('T')[0];
@@ -12,7 +12,17 @@ const BookNow = () => {
     maxDate.setDate(maxDate.getDate() + 7);
     const maxDateString = maxDate.toISOString().split('T')[0];
 
-    const onSubmit = (data) => {
+    interface BookNowFormData {
+        carId: string;
+        date: string;
+        nid?: string;
+        passport?: string;
+        startTime: string;
+        drivingLicense: string;
+      }
+
+
+    const onSubmit = (data:BookNowFormData) => {
         const bookData = { ...data, car };
         console.log({ bookData });
         navigate('/confirmBook', { state: { bookData } });
@@ -23,7 +33,7 @@ const BookNow = () => {
         <div className="border border-cyan-500 rounded-3xl p-10 justify-center">
             <div className="flex gap-10 justify-between">
                 <div>
-                    <p className="lg:text-2xl font-bold text-sky-500 ">{car.name}</p>
+                    <p className="lg:text-2xl font-bold text-sky-500 ">{car.name} {car.model}</p>
                 </div>
                 <div>
                     <p className="font-bold lg:text-2xl">Price: <span className="text-orange-600">$ {car.pricePerHour}</span></p>
@@ -69,7 +79,7 @@ const BookNow = () => {
                                         })} 
                                         className="input input-bordered w-full max-w-xs" 
                                     />
-                                    {errors.date && <p className="text-red-500 font-bold mt-4">{errors.date.message}</p>}
+                                    {errors.date && <p className="text-red-500 font-bold mt-4">{String(errors.date.message)}</p>}
                                 </label>
 
                                 {/* NID */}
@@ -92,7 +102,7 @@ const BookNow = () => {
                                         })}
                                         className="input input-bordered w-full max-w-xs" 
                                     />
-                                    {errors.nid && <p className="text-red-500 font-bold mt-4">{errors.nid.message}</p>}
+                                    {errors.nid && <p className="text-red-500 font-bold mt-4">{String(errors.nid.message)}</p>}
                                 </label>
 
                                 {/* Passport */}
@@ -115,7 +125,7 @@ const BookNow = () => {
                                         })}
                                         className="input input-bordered w-full max-w-xs" 
                                     />
-                                    {errors.passport && <p className="text-red-500 font-bold mt-4">{errors.passport.message}</p>}
+                                    {errors.passport && <p className="text-red-500 font-bold mt-4">{String(errors.passport.message)}</p>}
                                 </label>
 
                                 {/* Start Time */}
@@ -133,7 +143,7 @@ const BookNow = () => {
                                         })} 
                                         className="input input-bordered w-full max-w-xs" 
                                     />
-                                    {errors.startTime && <p className="text-red-500 font-bold mt-4">{errors.startTime.message}</p>}
+                                    {errors.startTime && <p className="text-red-500 font-bold mt-4">{String(errors.startTime.message)}</p>}
                                 </label>
 
                                 {/* Driving License */}
@@ -156,7 +166,7 @@ const BookNow = () => {
                                         })}
                                         className="input input-bordered w-full max-w-xs" 
                                     />
-                                    {errors.drivingLicense && <p className="text-red-500 font-bold mt-4">{errors.drivingLicense.message}</p>}
+                                    {errors.drivingLicense && <p className="text-red-500 font-bold mt-4">{String(errors.drivingLicense.message)}</p>}
                                 </label>
 
                                 {/* Color */}

@@ -7,13 +7,13 @@ import ReturnBookingModel from "../Modal/ReturnBookingModel";
 
 const Allbookings = () => {
    const {data,isLoading:bookingLoading,error:bookingError} = useGetAllBookingQuery()
-   const [approve,{data:approveData,isLoading:approveLoading}] = useGetApproveMutation()
-   const [deleteBooking,{data:deleteData,isLoading:deleteLoading}] =useDeleteBookingsMutation()
+   const [approve,{isLoading:approveLoading}] = useGetApproveMutation()
+   const [deleteBooking,{isLoading:deleteLoading}] =useDeleteBookingsMutation()
     const {refetch} = useGetBookingsQuery()
     const [returnModal,setReturnModal]=useState(false)
     const [returnBook,setReturnBook] = useState("")
 // approve handeling
-const handleApprove = async (id) => {
+const handleApprove = async (id:string) => {
     const result = await Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -78,8 +78,8 @@ const handleCancel = async (id) => {
     }
 };
 
-// handleCancel
-const handleReturn = (booking)=>{
+
+const handleReturn = (booking:any)=>{
     setReturnModal(true)
     setReturnBook(booking)
 }
@@ -121,7 +121,7 @@ const handleReturn = (booking)=>{
     </thead>
     <tbody>
         {
-            data?.data?.result.map((booking,index)=><tr key={booking._id} className={booking.isDeleted?"line-through text-red-500 ":""}>  
+            data?.data?.result.map((booking:any,index:any)=><tr key={booking._id} className={booking.isDeleted?"line-through text-red-500 ":""}>  
             <th>{index+1}</th>
             <td className="font-bold ">{booking._id}</td>
             <td>
@@ -162,7 +162,7 @@ approve? <td >
             </td>}
             <td>
                 {!booking.isDeleted && booking.endTime === null?<label onClick={()=>handleReturn(booking)} htmlFor="my_modal_6" className="btn btn-outline btn-warning btn-xs">Return Car</label>:<p className="text-red-500 text-xs font-bold">Car Returned</p>
-                // <label htmlFor="my_modal_6"><button onClick={()=>handleReturn(booking)} className="btn btn-outline btn-warning btn-xs">Return Car</button></label>
+              
                 
                 }
             </td>

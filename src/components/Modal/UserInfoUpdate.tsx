@@ -1,6 +1,6 @@
 
 
-const UserInfoUpdate = ({user}) => {
+const UserInfoUpdate = ({user}:any) => {
     console.log(user);
     return (
         <div>

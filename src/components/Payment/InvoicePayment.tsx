@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import   {useRef } from 'react';
+import { useLocation} from 'react-router-dom';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
@@ -7,7 +7,7 @@ const InvoicePayment = () => {
   const invoiceRef = useRef();
   const { state } = useLocation();
   const { booking } = state; // Access the passed booking info
-  const navigate = useNavigate();
+
 
   const generatePDF = () => {
     const element = invoiceRef.current;

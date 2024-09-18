@@ -1,28 +1,42 @@
-import { MdOutlinePriceCheck } from "react-icons/md";
+import React from 'react';
 
 
-const CarFilter = ({filters,onFilterChange}) => {
- 
-console.log({filters});
-const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  const { name, value } = e.target;
-  onFilterChange({
-    ...filters,
-    [name]: value,
-  });
-};
+interface Filters {
+  types: string;
+  minPrice: number;
+  maxPrice: number;
+}
 
-const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const { name, value } = e.target;
-  onFilterChange({
-    ...filters,
-    [name]: Number(value), 
-  });
-};
 
-    
-    return (
-      <div className="card bg-base-100 w-full shadow-xl p-4">
+type OnFilterChange = (filters: Filters) => void;
+
+// Define the props type for CarFilter
+interface CarFilterProps {
+  filters: Filters;
+  onFilterChange: OnFilterChange;
+}
+
+const CarFilter: React.FC<CarFilterProps> = ({ filters, onFilterChange }) => {
+  console.log({ filters });
+
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    onFilterChange({
+      ...filters,
+      [name]: value,
+    });
+  };
+
+  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    onFilterChange({
+      ...filters,
+      [name]: Number(value), 
+    });
+  };
+
+  return (
+    <div className="card bg-base-100 w-full shadow-xl p-4">
       <div className="card-body">
         <div className="flex flex-col md:flex-row md:justify-between gap-4">
           <select
@@ -57,7 +71,7 @@ const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         </div>
       </div>
     </div>
-    );
+  );
 };
 
 export default CarFilter;

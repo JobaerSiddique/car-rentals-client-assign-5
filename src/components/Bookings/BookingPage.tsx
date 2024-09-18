@@ -5,10 +5,11 @@ import SearchBooking from "./SearchBooking";
 import PageBanner from "../../pages/shared/pageBanner";
 import booking from '../../image/booking.jpg'
 import SearchResultBooking from "./SearchResultBooking";
+import { toast } from "sonner";
 
 const BookingPage = () => {
     const [searchCriteria, setSearchCriteria] = useState();
-    const { data: cars, refetch,isLoading,error } = useGetCarsQuery(searchCriteria, {
+    const { data: cars,isLoading,error } = useGetCarsQuery(searchCriteria, {
         skip: !searchCriteria, 
       });
 console.log({cars});
@@ -17,10 +18,12 @@ if(isLoading) {
     return <LoadingPage />
 }
 if(error){
-    console.log(error);
+   toast(error?.data?.message,{
+        position: 'top-center'
+   })
 }
 
-const handleSearch = (criteria) => {
+const handleSearch = (criteria:any) => {
     setSearchCriteria(criteria); // Update the search criteria
   };
 

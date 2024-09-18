@@ -6,9 +6,9 @@ import LoadingPage from "../shared/LoadingPage";
 
 const ForgetPage = () => {
     const {register,formState: { errors },handleSubmit} = useForm()
-   const [forget,{data,isLoading,error}]= useForgetPasswordMutation()
+   const [forget,{isLoading}]= useForgetPasswordMutation()
 
-console.log('forget',data);
+
    if(isLoading){
     return <LoadingPage/>
    }
@@ -78,7 +78,7 @@ placeholder="Enter your email address"
 } })}
 className="input input-bordered input-info w-full " />
  {errors.email?.type === "required" && (
-      <p className="text-red-500 font-bold mt-4">{errors?.email?.message}</p>
+      <p className="text-red-500 font-bold mt-4">{String(errors?.email?.message)}</p>
     )}
 
 </label>

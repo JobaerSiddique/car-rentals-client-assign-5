@@ -10,104 +10,15 @@ import 'jspdf-autotable';
 import { useState } from "react";
 import UserReview from "../users/UserReview";
 import paid from "../../image/pngtree-paid-stamp-vector-illustration-png-image_6585127-removebg-preview.png"
+import { toast } from "sonner";
 
 const PaymentInfo = () => {
     
     const {data:bookings=[],isLoading,error} = useGetBookingsQuery()
     const [review,setReview] = useState(false)
     const [reviewBooking,setReviewBooking] = useState("")
-    // const generatePDF = (booking) => {
-    //     const doc = new jsPDF('p', 'pt', 'a4'); 
-    //     const margin = 40;
-    //     const pageWidth = doc.internal.pageSize.getWidth();
-    
-     
-    //     doc.setFontSize(18);
-    //     doc.setTextColor(255, 255, 255);
-    //     doc.setFillColor(58, 70, 93); 
-    //     doc.rect(0, 0, pageWidth, 60, 'F');
-    //     doc.text('Company Name', margin, 40);
-    //     doc.text('INVOICE', pageWidth - margin - 80, 40);
-    
-      
-    //     doc.setFontSize(12);
-    //     doc.setTextColor(0, 0, 0);
-    //     doc.text(`Invoice #: ${booking._id}`, pageWidth - margin - 80, 80);
-    //     doc.text(`Date: ${new Date().toLocaleDateString()}`, pageWidth - margin - 80, 100);
-    
-        
-    //     const userName = booking.user && booking.user.name ? booking.user.name : 'Unknown User';
-    //     const userNameText = `UserName: ${userName}`;
-    //     const splitUserNameText = doc.splitTextToSize(userNameText, pageWidth - 2 * margin);
-    //     doc.text('Invoice to:', margin, 80);
-    //     doc.text(splitUserNameText, margin, 100);  // User's name with label displayed here
-    //     doc.text(`Phone: ${booking.user.phone}`, margin, 160);
-    
-        
-    //     doc.line(margin, 170, pageWidth - margin, 170);
-    
-       
-    //     doc.autoTable({
-    //         startY: 180,
-    //         margin: { left: margin, right: margin },
-    //         headStyles: { fillColor: [72, 168, 67] }, 
-    //         bodyStyles: { fillColor: [245, 245, 245] },
-    //         columnStyles: {
-    //             0: { cellWidth: 'auto' },
-    //             1: { cellWidth: 'auto' },
-    //             2: { cellWidth: 'auto' },
-    //             3: { cellWidth: 'auto' },
-    //             4: { cellWidth: 'auto' },
-    //         },
-    //         head: [['SL', 'Item Description', 'Duration', 'Price', 'TotalPrice']],
-    //         body: [
-    //             [1, 'Car Rental: ' + booking.car.name, booking.duration, `$${booking.car.pricePerHour}`, `$${booking.totalCost}`],
-    //         ],
-    //     });
-    
-    //     // Subtotal, Tax, Discount, and Total
-    //     const tableYPosition = doc.previousAutoTable.finalY + 20;
-    
-    //     doc.text('Sub Total:', pageWidth - margin - 100, tableYPosition);
-    //     doc.text(`$${booking.totalCost}`, pageWidth - margin, tableYPosition);
-    
-    //     doc.text('Tax:', pageWidth - margin - 100, tableYPosition + 20);
-    //     doc.text('0.00%', pageWidth - margin, tableYPosition + 20);
-    
-    //     doc.text('Discount:', pageWidth - margin - 100, tableYPosition + 40);
-    //     doc.text('0%', pageWidth - margin, tableYPosition + 40);
-    
-    //     doc.setFontSize(11);
-    //     doc.setFont('bold');
-    //     doc.setTextColor(58, 70, 93);
-    //     doc.text('Total:', pageWidth - margin - 100, tableYPosition + 60);
-    //     doc.text(`$${booking.totalCost}`, pageWidth - margin, tableYPosition + 60);
-    
-    //     // Terms & Conditions
-    //     doc.setFontSize(10);
-    //     doc.setFont('normal');
-    //     doc.setTextColor(0, 0, 0);
-    //     doc.text('Terms & Conditions', margin, tableYPosition + 100);
-    //     doc.setFontSize(8);
-    //     const termsText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna.';
-    //     const splitTermsText = doc.splitTextToSize(termsText, pageWidth - 2 * margin);
-    //     doc.text(splitTermsText, margin, tableYPosition + 115);
-    
-    //     // Footer
-    //     const footerYPosition = doc.internal.pageSize.getHeight() - 40;
-    //     doc.setFontSize(10);
-    //     doc.setTextColor(255, 255, 255);
-    //     doc.setFillColor(58, 70, 93); 
-    //     doc.rect(0, footerYPosition - 20, pageWidth, 60, 'F');
-    //     doc.text('Phone number', margin, footerYPosition);
-    //     doc.text('Address', pageWidth / 2, footerYPosition, 'center');
-    //     doc.text('NameCompany@gmail.com', pageWidth - margin, footerYPosition, 'right');
-    
-    //     // Save the PDF
-    //     doc.save(`Invoice_${booking._id}.pdf`);
-    // };
-console.log(bookings);
-const generatePDF = (booking) => {
+
+const generatePDF = (booking:any) => {
     console.log({booking});
     const doc = new jsPDF();
 
@@ -176,6 +87,10 @@ const generatePDF = (booking) => {
 
     if(isLoading){
       return <LoadingPage/>
+    }
+
+    if(error){
+        toast(error?.data?.message)
     }
     return (
       <>

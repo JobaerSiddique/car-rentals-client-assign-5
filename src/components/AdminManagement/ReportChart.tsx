@@ -1,7 +1,13 @@
 import React from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-const ReportChart = ({ data, label, color }) => {
+interface ReportChartProps {
+  data: number;
+  label: string;
+  color: string;
+}
+
+const ReportChart: React.FC<ReportChartProps>= ({ data, label, color }) => {
   const chartData = [{ name: label, value: data }];
 
   return (

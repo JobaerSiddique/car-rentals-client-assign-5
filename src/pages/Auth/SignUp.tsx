@@ -10,7 +10,7 @@ import { useState } from "react";
 
 const SignUp = () => {
     const {register,formState: { errors },handleSubmit} = useForm()
-   const [user,{isLoading}] = useRegisterMutation()
+   const [user,{isLoading,error}] = useRegisterMutation()
    const navigate = useNavigate()
    const cloudName = import.meta.env.VITE_CLOUD_NAME
 const cloudPreset = import.meta.env.VITE_UPLOAD_PRESET
@@ -57,6 +57,9 @@ const [terms,setTerms] = useState(false)
 }
 if(isLoading){
     return <LoadingPage/>
+}
+if(error){
+    toast(error?.data?.message)
 }
     return (
         <div className="flex justify-center items-center min-h-screen ">

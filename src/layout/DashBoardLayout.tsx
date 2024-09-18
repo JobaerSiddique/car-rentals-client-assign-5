@@ -1,14 +1,20 @@
+// @ts-ignore
 import { Link, Outlet } from "react-router-dom";
-import Navbar from "../pages/shared/Navbar";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { currentUser, logOut } from "../redux/features/Auth/AuthSlice";
 import { useGetUserQuery } from "../redux/features/Users/UserApi";
 import { useEffect, useState } from "react";
 
 
+interface User {
+  role: 'user' | 'admin';
+ 
+}
+
+
 const DashBoardLayout = () => {
-  const user  = useAppSelector(currentUser) 
-  const {role} = user 
+  const user = useAppSelector(currentUser) as User | null;
+ 
   const dispatch = useAppDispatch()
   const [theme, setTheme] = useState('light');
   const {data} = useGetUserQuery()
@@ -31,10 +37,12 @@ useEffect(() => {
   document.body.classList.toggle('dark', preferredTheme === 'dark');
 }, []);
 
-// Save theme selection in local storage
+
 useEffect(() => {
   localStorage.setItem('theme', theme);
 }, [theme]);
+
+const role = user?.role;
   const menuItem = <>
   {
     role === "user" &&<>

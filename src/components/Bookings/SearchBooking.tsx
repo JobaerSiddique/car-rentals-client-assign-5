@@ -1,3 +1,6 @@
+
+// @ts-ignore
+
 import { useForm } from "react-hook-form";
 
 

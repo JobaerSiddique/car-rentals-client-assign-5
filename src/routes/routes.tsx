@@ -6,7 +6,7 @@ import AboutUs from "../pages/AboutUs";
 import DashBoardLayout from "../layout/DashBoardLayout";
 import ProtectRoute from "../RequireAuth/protectRoute";
 import CarListing from "../pages/CarListing";
-import SingleCarInfo from "../pages/SingleCarInfo";
+
 import Userbooking from "../components/Bookings/Userbooking";
 import UsersInfo from "../components/users/usersInfo";
 import UserPayment from "../components/Payment/UserPayment";
@@ -32,6 +32,7 @@ import HomePage from "../pages/Home Page/HomePage";
 import TermsAndConditions from "../pages/Auth/TermsAndConditions";
 import Contact from "../pages/Contact";
 import ReportGenerateAdmin from "../components/AdminManagement/ReportGenerateAdmin";
+import SingleCarInfo from "../pages/SingleCarInfo";
 
 
 const router = createBrowserRouter([

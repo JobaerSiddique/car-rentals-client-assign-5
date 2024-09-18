@@ -1,20 +1,25 @@
-import React, { useState } from 'react';
+//  @ts-ignore
 import ReportChart from './ReportChart';
 import { useReportGenerateQuery } from '../../redux/features/bookings/bookingApi';
 import { FiPrinter } from "react-icons/fi";
 import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import LoadingPage from '../../pages/shared/LoadingPage';
+import { toast } from 'sonner';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import { useState } from 'react';
 const ReportGenerateAdmin = () => {
-  const [reports,setReports]=useState('')
+  const [reports,setReports]=useState("")
    const {data:report,isLoading,error} = useReportGenerateQuery(reports)
    
    const handleGeneratePDF = () => {
     const doc = new jsPDF();
 
-    // Add title
+    
     doc.setFontSize(20);
     doc.text('Report Summary', 10, 10);
 
-    // Add table with report details
+  
     doc.autoTable({
       head: [['Report Type', 'Total Bookings', 'Available Cars', 'Total Revenue']],
       body: [
@@ -30,6 +35,24 @@ const ReportGenerateAdmin = () => {
     // Save the PDF
     doc.save(`${reports}_report.pdf`);
   };
+
+  if(isLoading){
+    return <LoadingPage/>
+  }
+  if (error) {
+    console.error(error);
+
+    let message = 'An unknown error occurred';
+
+    if ('data' in error) {
+      const apiError = error as FetchBaseQueryError;
+      if (apiError.data && typeof apiError.data === 'object' && 'message' in apiError.data) {
+        message = apiError.data.message as string; // Ensure it's a string
+      }
+    }
+
+    toast(message);
+  }
     return (
         <>
       <h1 className='text-center font-extrabold text-transparent text-5xl bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600'>Reports Section </h1>

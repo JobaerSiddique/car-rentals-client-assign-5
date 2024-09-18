@@ -1,14 +1,27 @@
-import React from "react";
+// @ts-ignore
 import { useGetReviewQuery } from "../../redux/features/Reviews/reviewsApi";
-import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa"; // Import star icons
-import LoadingPage from "../shared/LoadingPage";
-import "keen-slider/keen-slider.min.css"; // Import keen-slider styles
-import { useKeenSlider } from "keen-slider/react"; // Import keen-slider hooks
+import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa"; 
+
+import "keen-slider/keen-slider.min.css"; 
+import { useKeenSlider } from "keen-slider/react"; 
+
+
+interface User {
+  name: string;
+  image: string;
+}
+
+interface Review {
+  comment: string;
+  ratings: number;
+  user: User;
+}
+
 
 const ReviewsPage = () => {
-  const { data: reviews, isLoading, error } = useGetReviewQuery();
+  const { data: reviews  } = useGetReviewQuery<Review[]>();
     console.log({reviews});
-  const [sliderRef, slider] = useKeenSlider({
+  const [sliderRef] = useKeenSlider({
     loop: true,
     slides: { perView: 1 },
     created: (slider) => {
@@ -18,7 +31,7 @@ const ReviewsPage = () => {
     },
   });
 
-  const renderStars = (rating) => {
+  const renderStars = (rating:number) => {
     const fullStars = Math.floor(rating);
     const halfStar = rating % 1 >= 0.5;
     const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
@@ -40,16 +53,11 @@ const ReviewsPage = () => {
     );
   };
 
-  if (isLoading) {
-    return <LoadingPage />;
-  }
+ 
 
-  if (error) {
-    console.log(error);
-    return <p>Error loading reviews</p>;
-  }
+  
 
-  // Group reviews into sets of 3
+ 
   const groupedReviews = [];
   for (let i = 0; i < reviews?.data?.length; i += 3) {
     groupedReviews.push(reviews.data.slice(i, i + 3));
@@ -62,7 +70,7 @@ const ReviewsPage = () => {
         {groupedReviews.map((group, index) => (
           <div  key={index} className="keen-slider__slide">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-14 justify-center items-center mx-auto animated-border p-5">
-              {group.map((review, idx) => (
+              {group.map((review:Review, idx: number) => (
                 
                 <div key={idx} className="card  w-96 shadow-2xl">
                   <div className="card-body">

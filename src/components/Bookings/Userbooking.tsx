@@ -1,3 +1,4 @@
+// @ts-ignore
 
 import { useDeleteBookingsMutation, useGetBookingsQuery } from "../../redux/features/bookings/bookingApi";
 import { RiDeleteBin5Line } from "react-icons/ri";
@@ -8,18 +9,19 @@ import LoadingPage from "../../pages/shared/LoadingPage";
 import Swal from "sweetalert2";
 import { useState } from "react";
 import UpdateBookingModel from "../Modal/UpdateBookingModel";
+import { toast } from "sonner";
 
 const Userbooking = () => {
  
     const {data:bookings=[],isLoading:bookingLoading,error:bookingError} = useGetBookingsQuery()
-   const [deleteBooking,{data,isLoading}] = useDeleteBookingsMutation()
+   const [deleteBooking,{isLoading}] = useDeleteBookingsMutation()
     const [updateModel,setUpdateModel] = useState(false)
     const [update,setUpdate] = useState(null)
   if(bookingLoading || isLoading) {
     return <LoadingPage/>
   }
 
-console.log({bookings});
+
 const handleBookingDelete = async (id: string) => {
     Swal.fire({
       title: "Are you sure?",
@@ -58,6 +60,10 @@ const handleBookingDelete = async (id: string) => {
 const handleUpdateBooking =(booking) =>{
     setUpdateModel(true)
     setUpdate(booking)
+}
+
+if(bookingError){
+    toast(bookingError?.data?.message)
 }
     return (
         <>

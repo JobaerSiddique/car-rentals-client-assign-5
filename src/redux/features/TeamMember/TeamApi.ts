@@ -7,7 +7,8 @@ const TeamApi = baseApi.injectEndpoints({
             query:()=>({
                 url:"teams/teamMembers",
                 method:"GET"
-            })
+            }),
+            providesTags: ['Team']
         })
     })
 })

@@ -1,39 +1,48 @@
 import { useFieldArray, useForm } from "react-hook-form";
+import { useUpdateCarMutation } from "../../redux/features/Cars/CarApi";
+import { toast } from "sonner";
+
 
 
 const UpdateCarModel = ({car}) => {
-  console.log('car',car); 
-  const { register, control, handleSubmit, formState: { errors },reset } = useForm();
+ 
+  const { register, control, handleSubmit,reset } = useForm();
+  const [updateCar]=useUpdateCarMutation()
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "features", // This will store the features as an array
+    name: "features", 
   });
+
+  const cloudName = import.meta.env.VITE_CLOUD_NAME
+  const cloudPreset = import.meta.env.VITE_UPLOAD_PRESET
+
+
   const onSubmit = async (data) => {
-    const file = data.file[0];
-
-    // Create an image element to validate its dimensions
-    const img = new Image();
-    const fileReader = new FileReader();
-    
-    fileReader.onload = (e) => {
-      img.src = e.target.result;
-
-      img.onload = async () => {
-        const { width, height } = img;
-        
+  
+ 
+  if (data.file && data.file.length > 0) {
+    const file = data.file[0]; 
+    if (file instanceof Blob) { 
+      const img = new Image();
+      const fileReader = new FileReader();
       
-        if (width === 500 && height === 500) {
-          const formData = new FormData();
-          formData.append('file', file);
-          formData.append('upload_preset', cloudPreset);
+      fileReader.onload = (e) => {
+        img.src = e.target.result;
 
-         
-          fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-            method: "POST",
-            body: formData
-          })
-            .then(res => res.json())
-            .then(imageData => {
+        img.onload = async () => {
+          const { width, height } = img;
+
+          if (width === 500 && height === 500) {
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('upload_preset', cloudPreset);
+
+            try {
+              const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+                method: "POST",
+                body: formData
+              });
+              const imageData = await response.json();
               const image = imageData.secure_url;
               const newCar = {
                 name: data.name,
@@ -49,34 +58,62 @@ const UpdateCarModel = ({car}) => {
                 gps: data.gps === "Yes",
                 childSeat: data.childSeat === "Yes"
               };
-              // addCar(newCar);
-              // toast("New Car Added Successfully");
-              // reset();
-              // navigate('/dashboard/admin/allCar')
-            });
-        } 
-        else{
-          const newCar = {
-            name: data.name,
-            
-            color: data.color,
-            year: data.year,
-            pricePerHour: parseInt(data.pricePerHour),
-            features: data.features.map((feature) => feature.value),
-            description: data.description,
-            model: data.model,
-            types: data.types,
-            isElectric: data.isElectric === "Yes",
-            gps: data.gps === "Yes",
-            childSeat: data.childSeat === "Yes"
-          };
-        }
-      };
-    };
+              const res = await updateCar({ id: car.id, data: newCar }).unwrap();
+              console.log(res);
+              if(res.success){
+                toast(res.message)
+                reset();
+              }
 
-    
-    fileReader.readAsDataURL(file);
-  };
+            } catch (error) {
+              console.error('Image upload failed:', error);
+            }
+          } else {
+            const newCar = {
+              name: data.name,
+              color: data.color,
+              year: data.year,
+              pricePerHour: parseInt(data.pricePerHour),
+              features: data.features.map((feature) => feature.value),
+              description: data.description,
+              model: data.model,
+              types: data.types,
+              isElectric: data.isElectric === "Yes",
+              gps: data.gps === "Yes",
+              childSeat: data.childSeat === "Yes"
+            };
+            const res = await updateCar({ id: car.id, data: newCar }).unwrap();
+            console.log({res});
+              if(res.success){
+                toast(res.message)
+                reset();
+              }
+          }
+        };
+      };
+
+      fileReader.readAsDataURL(file);
+    } else {
+      console.error('Selected file is not valid.');
+    }
+  } else {
+    // Handle cases where no file is selected
+    const newCar = {
+      name: data.name,
+      color: data.color,
+      year: data.year,
+      pricePerHour: parseInt(data.pricePerHour),
+      features: data.features.map((feature) => feature.value),
+      description: data.description,
+      model: data.model,
+      types: data.types,
+      isElectric: data.isElectric === "Yes",
+      gps: data.gps === "Yes",
+      childSeat: data.childSeat === "Yes"
+    };
+    updateCar({ id: car._id, data: newCar });
+  }
+};
   return (
         <div>
             <input type="checkbox" id="my_modal_6" className="modal-toggle" />
@@ -151,6 +188,7 @@ const UpdateCarModel = ({car}) => {
     <span className="font-bold">Gps </span>
   </div>
   <select 
+  defaultValue={car.gps}
   {...register("gps", {
     
   })}
@@ -225,6 +263,7 @@ const UpdateCarModel = ({car}) => {
   <input 
   type="text" 
   placeholder="Enter car Model Year" 
+  defaultValue={car.year}
   {...register("year")}
   className="input input-bordered w-full " />
 
@@ -236,6 +275,7 @@ const UpdateCarModel = ({car}) => {
   <input 
   type="text" 
   placeholder="Enter Car Color" 
+  defaultValue={car.color}
   {...register("color")}
   className="input input-bordered w-full " />
   
@@ -245,6 +285,7 @@ const UpdateCarModel = ({car}) => {
     <span className="font-bold">Types <span className="text-red-600">*</span></span>
   </div>
   <select 
+  defaultValue={car.types}
    {...register("types")}
   className="select select-bordered">
   <option disabled selected>Select Types</option>
@@ -263,6 +304,7 @@ const UpdateCarModel = ({car}) => {
   <textarea 
   className="textarea textarea-bordered h-auto" 
   placeholder="Enter Car Description"
+  defaultValue={car.description} 
   {...register("description")}
   />
  

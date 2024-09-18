@@ -1,10 +1,35 @@
+// @ts-ignore
 import TeamMemberCard from "../components/TeamMember/teamMemberCard";
 import { useGetTeamQuery } from "../redux/features/TeamMember/TeamApi";
 
+interface TeamMember {
+    _id: string;
+    name: string;
+    role: string;
+}
 
-
+interface TeamResponse {
+    data: {
+        data: TeamMember[];
+    };
+}
 const AboutUs = () => {
-  const data = useGetTeamQuery()
+    const { data, error } = useGetTeamQuery<TeamResponse>();
+
+    
+    let errorMessage = 'An unknown error occurred.';
+
+    if (error) {
+      if ('status' in error) {
+        
+        errorMessage = `Error ${error.status}: ${error.data}`;
+      } else if ('message' in error) {
+        
+        errorMessage = `Error: ${error.message}`;
+      }
+    }
+  
+    if (error) return <div>{errorMessage}</div>;
    
    console.log(data)
     return (

@@ -11,7 +11,7 @@ const AllCars = () => {
     const {data,refetch} = useGetCarsQuery({})
     const [carUpdate,setCarUpdate] = useState(false)
     const [updateCar,setUpdateCar] = useState("")
-  const [deleteCar,{data:deleteData,isLoading,error}] = useDeleteCarMutation()
+  const [deleteCar,{isLoading}] = useDeleteCarMutation()
     
   const handleCarUpdate = (data)=>{
     setCarUpdate(true);

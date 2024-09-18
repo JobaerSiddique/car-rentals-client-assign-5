@@ -1,4 +1,4 @@
-
+// @ts-ignore
 import { useForm } from "react-hook-form";
 import { useUpdateBookingMutation } from "../../redux/features/bookings/bookingApi";
 import LoadingPage from "../../pages/shared/LoadingPage";
@@ -6,10 +6,10 @@ import Swal from "sweetalert2";
 import { toast } from "sonner";
 
 
-const UpdateBookingModel = ({update}) => {
+const UpdateBookingModel = ({update}:any) => {
   
-   const { register, handleSubmit, watch } = useForm();
-   const [updateBooking,{data:updates,isLoading,isError}] =useUpdateBookingMutation()
+   const { register, handleSubmit} = useForm();
+   const [updateBooking,{isLoading}] =useUpdateBookingMutation()
    const onSubmit =async (data) => {
      
     const updateInfo ={
@@ -35,15 +35,7 @@ const UpdateBookingModel = ({update}) => {
     return <LoadingPage/>
    }
 
-   if(isError){
-    console.log(isError);
-    Swal.fire({
-      title: "Error!",
-      text: isError?.message,
-      icon: "error"
-    });
-    return
-   }
+   
     return (
         <div>
             <input type="checkbox" id="my_modal_6" className="modal-toggle" />

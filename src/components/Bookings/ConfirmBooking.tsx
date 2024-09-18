@@ -1,6 +1,8 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useCreateBookingMutation, useGetAllBookingQuery } from "../../redux/features/bookings/bookingApi";
+
+import LoadingPage from "../../pages/shared/LoadingPage";
  
 
 const ConfirmBooking = () => {
@@ -8,7 +10,7 @@ const ConfirmBooking = () => {
    const bookData = location.state
    const navigate = useNavigate()
    const {refetch} =useGetAllBookingQuery()
-   const [bookings,{data,isLoading,error}] = useCreateBookingMutation()
+   const [bookings,{isLoading}] = useCreateBookingMutation()
    const handleBack = () => {
     navigate(`/bookNow/${bookData?.bookData?.car?._id}`, { state: { car: bookData?.bookData?.car } });
 };
@@ -24,10 +26,10 @@ const handleBooking = async () => {
         confirmButtonText: "Yes, confirm booking!"
     });
 
-    // If the user confirmed, proceed with the booking
+  
     if (result.isConfirmed) {
         try {
-            // Create the booking object
+          
             const book = {
                 carId: bookData?.bookData?.car?._id,
                 date: bookData?.bookData?.date,
@@ -37,7 +39,7 @@ const handleBooking = async () => {
                 drivingLicense: bookData?.bookData?.drivingLicense
             };
 
-            // Call the createBooking mutation
+           
             const res = await bookings(book).unwrap();
 
             if(res.success){
@@ -63,6 +65,10 @@ const handleBooking = async () => {
         }
     }
 };
+
+if(isLoading) {
+    return <LoadingPage/>
+}
     return (
         <div>
           
