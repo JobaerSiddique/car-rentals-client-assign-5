@@ -25,17 +25,19 @@ interface ReviewFormData {
 
 const UserReview = ({ booking }: UserReviewProps) => {
     const { register, formState: { errors }, handleSubmit, reset } = useForm<ReviewFormData>();
-    const [addReview, { isLoading }] = useCreateReviewMutation();
-
+    const [addReview, { data:reviews,isLoading }] = useCreateReviewMutation();
+console.log({reviews});
     const onSubmit: SubmitHandler<ReviewFormData> = async (data) => {
         const review = {
             comment: data.comment,
-            ratings: data.ratings,
+            ratings: Number(data.ratings),
             carId: booking.car._id,
             user: booking.user._id
         };
+
         try {
             const res = await addReview(review).unwrap();
+       
             if (res.success) {
                 toast.success(res.message, {
                     position: "top-center",
