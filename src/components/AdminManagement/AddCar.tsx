@@ -2,11 +2,12 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { useAddCarMutation } from "../../redux/features/Cars/CarApi";
 import LoadingPage from "../../pages/shared/LoadingPage";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 const AddCar = () => {
   const cloudName = import.meta.env.VITE_CLOUD_NAME;
   const cloudPreset = import.meta.env.VITE_UPLOAD_PRESET;
-  
+  const navigate = useNavigate()
   const { register, control, handleSubmit, formState: { errors }, reset } = useForm();
   const { fields, append, remove } = useFieldArray({
     control,
@@ -68,7 +69,7 @@ const AddCar = () => {
                 addCar(newCar);
                 toast("New Car Added Successfully");
                 reset();
-                // navigate('/dashboard/admin/allCar')
+                navigate('/dashboard/admin/allCar')
               });
           } else {
             toast.error("Image dimensions should be 500x500");
@@ -96,14 +97,14 @@ const AddCar = () => {
           <div className="card-body">
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols border border-cyan-500 rounded-3xl p-10 gap-8">
-                {/* Form fields */}
+                
                 <label className="form-control w-full my-5">
                   <div className="label">
                     <span className="font-bold">Car Name <span className="text-red-600">*</span></span>
                   </div>
                   <input 
                     type="text" 
-                    placeholder="Enter Car Model Number" 
+                    placeholder="Enter Car name" 
                     {...register("name", { required: {
                       value: true,
                       message: "Car Name must be Required"
@@ -114,9 +115,200 @@ const AddCar = () => {
                     <p className="text-red-600 font-bold mt-3">{String(errors?.name?.message)}</p>
                   )}
                 </label>
+                <label className="form-control w-full my-5">
+                  <div className="label">
+                    <span className="font-bold">Car Model <span className="text-red-600">*</span></span>
+                  </div>
+                  <input 
+                    type="text" 
+                    placeholder="Enter Car Model Number" 
+                    {...register("model", { required: {
+                      value: true,
+                      message: "Car Model must be Required"
+                    }})}
+                    className="input input-bordered w-full"
+                  />
+                  {errors.model?.type === "required" && (
+                    <p className="text-red-600 font-bold mt-3">{String(errors?.model?.message)}</p>
+                  )}
+                </label>
+                <label className="form-control w-full my-5">
+                  <div className="label">
+                    <span className="font-bold">Year <span className="text-red-600">*</span></span>
+                  </div>
+                  <input 
+                    type="number" 
+                    placeholder="Enter Car Model Number" 
+                    {...register("year", { required: {
+                      value: true,
+                      message: " Car Year must be Required"
+                    }})}
+                    className="input input-bordered w-full"
+                  />
+                  {errors.year?.type === "required" && (
+                    <p className="text-red-600 font-bold mt-3">{String(errors?.year?.message)}</p>
+                  )}
+                </label>
+                <label className="form-control w-full my-5">
+                  <div className="label">
+                    <span className="font-bold">Price Per Hour <span className="text-red-600">*</span></span>
+                  </div>
+                  <input 
+                    type="number" 
+                    placeholder="Enter Car Model Number" 
+                    {...register("pricePerHour", { required: {
+                      value: true,
+                      message: "price must be Required"
+                    }})}
+                    className="input input-bordered w-full"
+                  />
+                  {errors.pricePerHour?.type === "required" && (
+                    <p className="text-red-600 font-bold mt-3">{String(errors?.pricePerHour?.message)}</p>
+                  )}
+                </label>
+                <label className="form-control w-full my-5">
+                  <div className="label">
+                    <span className="font-bold">Location <span className="text-red-600">*</span></span>
+                  </div>
+                  <input 
+                    type="text" 
+                    placeholder="Enter Car location" 
+                    {...register("location", { required: {
+                      value: true,
+                      message: "location must be Required"
+                    }})}
+                    className="input input-bordered w-full"
+                  />
+                  {errors.name?.type === "required" && (
+                    <p className="text-red-600 font-bold mt-3">{String(errors?.location?.message)}</p>
+                  )}
+                </label>
+                <label className="form-control w-full my-5">
+                  <div className="label">
+                    <span className="font-bold">Color <span className="text-red-600">*</span></span>
+                  </div>
+                  <input 
+                    type="text" 
+                    placeholder="Enter Car Model Number" 
+                    {...register("color", { required: {
+                      value: true,
+                      message: "Color must be Required"
+                    }})}
+                    className="input input-bordered w-full"
+                  />
+                  {errors.color?.type === "required" && (
+                    <p className="text-red-600 font-bold mt-3">{String(errors?.color?.message)}</p>
+                  )}
+                </label>
+                <label className="form-control w-full my-5">
+                  <div className="label">
+                    <span className="font-bold">Types <span className="text-red-600">*</span></span>
+                  </div>
+                  <select {...register("types", { required: {
+                      value: true,
+                      message: "Car Types be Required"
+                    }})} className="select select-info w-full ">
+  <option disabled selected>Select Types</option>
+  <option>Sedan</option>
+  <option>SUV</option>
+  <option>Hybrid</option>
+</select>
+                  
+                  {errors.types?.type === "required" && (
+                    <p className="text-red-600 font-bold mt-3">{String(errors?.types?.message)}</p>
+                  )}
+                </label>
+                <label className="form-control w-full my-5">
+                  <div className="label">
+                    <span className="font-bold">IsElectric <span className="text-red-600">*</span></span>
+                  </div>
+                  <select {...register("isElectric", { required: {
+                      value: true,
+                      message: "Car Types be Required"
+                    }})} className="select select-info w-full ">
+  <option disabled selected>Select Electric</option>
+  <option>Yes</option>
+  <option>No</option>
+  
+</select>
+                  
+                  {errors.types?.type === "required" && (
+                    <p className="text-red-600 font-bold mt-3">{String(errors?.types?.message)}</p>
+                  )}
+                </label>
+                <label className="form-control w-full my-5">
+                  <div className="label">
+                    <span className="font-bold">Gps<span className="text-red-600">*</span></span>
+                  </div>
+                  <select {...register("gps", { required: {
+                      value: true,
+                      message: "Car Types be Required"
+                    }})} className="select select-info w-full ">
+  <option disabled selected>Select Gps</option>
+  <option>Yes</option>
+  <option>No</option>
+  
+</select>
+                  
+                  {errors.types?.type === "required" && (
+                    <p className="text-red-600 font-bold mt-3">{String(errors?.types?.message)}</p>
+                  )}
+                </label>
+                <label className="form-control w-full my-5">
+                  <div className="label">
+                    <span className="font-bold">Child Seat <span className="text-red-600">*</span></span>
+                  </div>
+                  <select {...register("childSeat", { required: {
+                      value: true,
+                      message: "Car Types be Required"
+                    }})} className="select select-info w-full ">
+  <option disabled selected>Select Child Seat</option>
+  <option>Yes</option>
+  <option>No</option>
+  
+</select>
+                  
+                  {errors.types?.type === "required" && (
+                    <p className="text-red-600 font-bold mt-3">{String(errors?.types?.message)}</p>
+                  )}
+                </label>
+                <label className="form-control w-full my-5">
+                  <div className="label">
+                    <span className="font-bold">IsFeatured <span className="text-red-600">*</span></span>
+                  </div>
+                  <select {...register("isFeatured", { required: {
+                      value: true,
+                      message: "Car Types be Required"
+                    }})} className="select select-info w-full ">
+  <option disabled selected>Select isFeatured</option>
+  <option>Yes</option>
+  <option>No</option>
+  
+</select>
+                  
+                  {errors.types?.type === "required" && (
+                    <p className="text-red-600 font-bold mt-3">{String(errors?.types?.message)}</p>
+                  )}
+                </label>
+                <label className="form-control w-full my-5">
+                  <div className="label">
+                    <span className="font-bold">Description <span className="text-red-600">*</span></span>
+                  </div>
+                  <textarea {...register("description", { required: {
+                      value: true,
+                      message: "Description must  be Required"
+                    }})} className="textarea textarea-info w-full h-20 ">
+  
+  
+</textarea>
+                  
+                  {errors.description?.type === "required" && (
+                    <p className="text-red-600 font-bold mt-3">{String(errors?.description?.message)}</p>
+                  )}
+                </label>
                 
-                {/* More form fields here */}
-                {/* ... */}
+                
+                
 
                 <div className="my-5">
                   <div className="label">
@@ -157,10 +349,13 @@ const AddCar = () => {
                   )}
                 </div>
                 
-                {/* More form fields here */}
-                {/* ... */}
+               
 
-                <label className="form-control w-full my-5">
+                
+
+            
+              </div>
+              <label className="form-control w-full my-5">
                   <div className="label">
                     <span className="font-bold">Image <span className="text-red-600">*</span></span>
                   </div>
@@ -178,9 +373,7 @@ const AddCar = () => {
                     </p>
                   )}
                 </label>
-
-                <input type="submit" value="Submit" className="btn btn-outline btn-info w-full mt-5" />
-              </div>
+              <input type="submit" value="Submit" className="btn btn-outline btn-info w-full mt-5" />
             </form>
           </div>
         </div>

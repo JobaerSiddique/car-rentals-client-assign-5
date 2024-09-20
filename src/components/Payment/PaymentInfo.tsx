@@ -1,7 +1,5 @@
 import { useGetBookingsQuery } from "../../redux/features/bookings/bookingApi";
 import { Link } from "react-router-dom";
-import noData from "../../../no-Data.json";
-import Lottie from "react-lottie-player";
 import LoadingPage from "../../pages/shared/LoadingPage";
 import jsPDF from "jspdf";
 import 'jspdf-autotable';
@@ -10,7 +8,6 @@ import UserReview from "../users/UserReview";
 import paid from "../../image/pngtree-paid-stamp-vector-illustration-png-image_6585127-removebg-preview.png";
 import { toast } from "sonner";
 import { SerializedError } from '@reduxjs/toolkit';
-
 
 interface Booking {
     _id: string;
@@ -29,19 +26,22 @@ interface Booking {
     };
     date: string;
     startTime: string;
-    endTime: string | null;
+    endTime: string ;
     duration: number;
     totalCost: number;
     paid: string;
 }
+
 const PaymentInfo = () => {
-    const { data: bookings = [], isLoading, error } = useGetBookingsQuery(undefined);
+    const { data: bookingsData = [], isLoading, error } = useGetBookingsQuery(undefined);
     const [review, setReview] = useState(false);
     const [reviewBooking, setReviewBooking] = useState<Booking | null>(null);
 
+    console.log("Bookings Data:", bookingsData);
+    const bookings = bookingsData?.data
+    console.log({bookings});
     const generatePDF = (booking: any) => {
         const doc = new jsPDF();
-
         const drawHeader = () => {
             doc.setFontSize(20);
             doc.setTextColor(0, 0, 0); // Ensures text color is black
@@ -95,7 +95,7 @@ const PaymentInfo = () => {
         doc.save(`Invoice_${booking._id}.pdf`);
     };
 
-    const handleReview = (booking) => {
+    const handleReview = (booking: Booking) => {
         setReview(true);
         setReviewBooking(booking);
     };
@@ -115,113 +115,113 @@ const PaymentInfo = () => {
                 <div className="card bg-base-100 w-auto shadow-xl">
                     <div className="card-body">
                         <div className="overflow-x-auto">
-                            {bookings?.length > 0 ? (
-                                <table className="table text-center">
-                                    <thead>
-                                        <tr>
-                                            <th>Car Info</th>
-                                            <th>User Info</th>
-                                            <th>Booking ID</th>
-                                            <th>Date</th>
-                                            <th>Start Time</th>
-                                            <th>End Time</th>
-                                            <th>Price Per Hour</th>
-                                            <th>Duration</th>
-                                            <th>Total Price</th>
-                                            <th>Pay</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {bookings.map((booking) =>
-                                            booking?.endTime !== null ? (
-                                                <tr key={booking._id} className="hover">
-                                                    <td>
-                                                        <div className="flex items-center gap-3">
-                                                            <div className="avatar">
-                                                                <div className="mask mask-squircle h-12 w-12">
-                                                                    <img
-                                                                        src={booking.car.image}
-                                                                        alt={booking.car.name}
-                                                                    />
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <div className="font-bold text-black">
-                                                                    {booking.car.name}
-                                                                </div>
-                                                                <div className="text-sm opacity-50">
-                                                                    {booking.car.color}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        UserName: {booking.user.name}
-                                                        <br />
-                                                        <span className="badge badge-ghost badge-sm">
-                                                            Phone: {booking.user.phone}
-                                                        </span>
-                                                    </td>
-                                                    <td>{booking._id}</td>
-                                                    <td>{booking.date}</td>
-                                                    <td>{booking.startTime}</td>
-                                                    <td>{booking.endTime}</td>
-                                                    <td>$ {booking.car.pricePerHour}</td>
-                                                    <td className="text-red-600 font-bold"> {booking.duration} In Hour</td>
-                                                    <td>
-                                                        {booking.endTime ? (
-                                                            <p className="text-green-600 font-bold">
-                                                                $ {booking.totalCost}
-                                                            </p>
-                                                        ) : (
-                                                            <p className="text-red-600 font-bold">Pending</p>
-                                                        )}
-                                                    </td>
-                                                    <th>
-                                                        {booking.endTime ? (
-                                                            booking.paid === "paid" ? (
-                                                                <p className="text-green-600 font-bold">Paid</p>
-                                                            ) : (
-                                                                <Link
-                                                                    to={`/dashboard/pay/${booking._id}`}
-                                                                    className="btn btn-secondary btn-sm"
-                                                                >
-                                                                    Pay Now
-                                                                </Link>
-                                                            )
-                                                        ) : (
-                                                            <button
-                                                                disabled
-                                                                className="btn btn-ghost btn-sm"
-                                                            >
-                                                                Pay Now
-                                                            </button>
-                                                        )}
-                                                    </th>
-                                                    <th>{booking.paid === 'paid' && <button className="btn btn-outline btn-sm" onClick={() => generatePDF(booking)}>Receipt</button>}</th>
-                                                    <th>{booking.paid === 'paid' && <label onClick={() => handleReview(booking)} htmlFor="my_modal_6" className="btn btn-outline btn-info btn-sm">Review</label>}</th>
-                                                </tr>
-                                            ) : null
-                                        )}
-                                    </tbody>
-                                </table>
-                            ) : (
-                                <div className="flex justify-center items-center h-screen">
-                                    <Lottie
-                                        loop
-                                        animationData={noData}
-                                        play
-                                        style={{ width: 300, height: 500 }}
-                                    />
-                                </div>
-                            )}
+                            <table className="table text-center">
+                                <thead>
+                                    <tr>
+                                        <th>Car Info</th>
+                                        <th>User Info</th>
+                                        <th>Booking ID</th>
+                                        <th>Date</th>
+                                        <th>Start Time</th>
+                                        <th>End Time</th>
+                                        <th>Price Per Hour</th>
+                                        <th>Duration</th>
+                                        <th>Total Price</th>
+                                        <th>Pay</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                              
+<tbody>
+           {
+                bookings.map((booking)=><tr key={booking._id} className="hover">
+                <td>
+                    <div className="flex items-center gap-3">
+                        <div className="avatar">
+                            <div className="mask mask-squircle h-12 w-12">
+                                <img
+                                    src={booking?.car?.image}
+                                    alt={booking?.car?.name}
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <div className="font-bold text-black">
+                                {booking?.car?.name}
+                            </div>
+                            <div className="text-sm opacity-50">
+                                {booking?.car?.color}
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    UserName: {booking?.user?.name}
+                    <br />
+                    <span className="badge badge-ghost badge-sm">
+                        Phone: {booking?.user?.phone}
+                    </span>
+                </td>
+                <td>{booking._id}</td>
+                <td>{booking.date}</td>
+                <td>{booking.startTime}</td>
+                <td>{booking.endTime}</td>
+                <td>$ {booking?.car?.pricePerHour}</td>
+                <td className="text-red-600 font-bold"> {booking.duration} In Hour</td>
+                <td>
+                    {booking.endTime ? (
+                        <p className="text-green-600 font-bold">
+                            $ {booking.totalCost}
+                        </p>
+                    ) : (
+                        <p className="text-red-600 font-bold">Pending</p>
+                    )}
+                </td>
+                <th>
+                    {booking.endTime ? (
+                        booking.paid === "paid" ? (
+                            <p className="text-green-600 font-bold">Paid</p>
+                        ) : (
+                            <Link
+                                to={`/dashboard/pay/${booking._id}`}
+                                className="btn btn-secondary btn-sm"
+                            >
+                                Pay Now
+                            </Link>
+                        )
+                    ) : (
+                        <button disabled className="btn btn-ghost btn-sm">
+                            Pay Now
+                        </button>
+                    )}
+                </th>
+                <th>{booking.paid === 'paid' && (
+                    <button
+                        onClick={() => generatePDF(booking)}
+                        className="btn btn-primary btn-xs"
+                    >
+                        Recipt
+                    </button>
+                )}</th>
+                <td>
+                    {booking.paid === "paid" && (
+                       
+                        <label htmlFor="my_modal_6" 
+                        onClick={() => handleReview(booking)}
+                        className="btn btn-primary btn-xs">Review</label>
+                    )}
+                </td>
+            </tr>)
+           }                         
+
+</tbody>
+
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
-
-            {review && reviewBooking && <UserReview booking={reviewBooking} />}
+            {review && <UserReview booking={reviewBooking}  />}
         </>
     );
 };

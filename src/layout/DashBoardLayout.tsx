@@ -1,4 +1,4 @@
-// @ts-ignore
+
 import { Link, Outlet } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { currentUser, logOut } from "../redux/features/Auth/AuthSlice";
