@@ -54,20 +54,20 @@ const UserPayment = () => {
     return (
         <div>
             <div>
-                <div className="card glass w-[90%] shadow-2xl">
+                <div className="card glass w-full shadow-2xl">
                     <div className="card-body px-10">
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-20 justify-center items-center">
                             <div>
                                 <div className="border border-info rounded-3xl p-10">
-                                    <h1 className="text-black font-bold lg:text-2xl">BookingID: {booking?._id}</h1>
+                                    <h1 className="text-black font-bold text-base lg:text-2xl">BookingID: {booking?._id}</h1>
                                     <div className="divider divider-info uppercase text-2xl text-black my-8 font-semibold">User Information</div>
-                                    <div className="m-5 font-bold text-xl text-orange-600 lg:text-xl">
+                                    <div className="m-5 font-bold text-base text-orange-600 lg:text-xl">
                                         <h1>UserName: {booking?.user?.name}</h1>
                                         <h1>Phone: {booking?.user?.phone}</h1>
                                         <h1>Email: {booking?.user?.email}</h1>
                                     </div>
                                     <div className="divider divider-info uppercase text-2xl text-black my-8 font-semibold">Car Information</div>
-                                    <div className="m-5 font-bold text-xl text-orange-600">
+                                    <div className="m-5 font-bold text-base text-orange-600">
                                         <h1>Car Model: {booking?.car?.name} {booking?.car?.model}</h1>
                                         <h1>PricePerHour: ${booking?.car?.pricePerHour}</h1>
                                         <h1>Car Type: {booking?.car?.types}</h1>
