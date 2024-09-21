@@ -5,12 +5,12 @@ import Swal from "sweetalert2";
 import LoadingPage from "../shared/LoadingPage";
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 
-// Utility to check if the error is a FetchBaseQueryError
+
 const isFetchBaseQueryError = (error: any): error is FetchBaseQueryError => {
   return error && typeof error === 'object' && 'data' in error;
 };
 
-// Utility to check if error.data is of type { message: string }
+
 const hasMessage = (data: any): data is { message: string } => {
   return data && typeof data === 'object' && 'message' in data;
 };
@@ -32,7 +32,6 @@ const ResetPassword = () => {
 
   if (error) {
     if (isFetchBaseQueryError(error)) {
-      // Type guard for the presence of a message field in error.data
       const errorMessage = hasMessage(error.data) ? error.data.message : "An unknown error occurred";
 
       Swal.fire({
