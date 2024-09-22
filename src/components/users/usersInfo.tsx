@@ -35,7 +35,7 @@ const UsersInfo = () => {
                 <div className="card card-glass w-full shadow-xl">
                     <div className="card-body">
                         <div>
-                            <div className="flex justify-between">
+                            <div className="flex justify-between items-center">
                                 <div>
                                     <h1 className="bg-gradient-to-r from-purple-600 via-teal-400 to-cyan-500 inline-block text-transparent bg-clip-text text-xl md:text-2xl lg:text-3xl font-bold">My-Profile</h1>
                                 </div>
@@ -44,7 +44,7 @@ const UsersInfo = () => {
                                 </div>
                             </div>
                             <div className="divider divider-info"></div>
-                            <div className="border border-cyan-500 rounded-3xl p-10">
+                            <div className="lg:border lg:border-cyan-500 rounded-3xl p-10">
                                 <div className="avatar placeholder my-10">
                                     {user?.image ? (
                                         <div className="avatar">
@@ -54,7 +54,7 @@ const UsersInfo = () => {
                                         </div>
                                     ) : (
                                         <div className="bg-neutral text-neutral-content w-24 h-24 rounded-full flex items-center justify-center">
-                                            <span className="text-3xl">
+                                            <span className="text-sm lg:text-3xl">
                                                 {user?.name ? user.name.charAt(0).toUpperCase() : 'N'}
                                             </span>
                                         </div>

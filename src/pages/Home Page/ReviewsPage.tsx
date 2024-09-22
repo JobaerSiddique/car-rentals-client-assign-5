@@ -2,8 +2,8 @@ import { useGetReviewQuery } from "../../redux/features/Reviews/reviewsApi";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa"; 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
-import 'swiper/css'; // Core Swiper styles
-import 'swiper/css/autoplay'; //
+import 'swiper/css'; 
+import 'swiper/css/autoplay'; 
 
 const ReviewsPage = () => {
   const { data: reviews } = useGetReviewQuery(undefined);
@@ -37,10 +37,10 @@ const ReviewsPage = () => {
           autoplay={{ delay: 4000, disableOnInteraction: false }}
           loop={true}
           breakpoints={{
-            640: { slidesPerView: 1, spaceBetween: 20 },   // Tailwind sm
-            768: { slidesPerView: 2, spaceBetween: 30 },   // Tailwind md
-            1024: { slidesPerView: 3, spaceBetween: 40 },  // Tailwind lg
-            // 1280: { slidesPerView: 4, spaceBetween: 50 },  // Tailwind xl
+            640: { slidesPerView: 1, spaceBetween: 20 },   
+            768: { slidesPerView: 2, spaceBetween: 30 },  
+            1024: { slidesPerView: 3, spaceBetween: 40 },  
+            // 1280: { slidesPerView: 4, spaceBetween: 50 },  
           }}
           className="mySwiper w-full max-w-5xl mx-auto px-4"
         >
