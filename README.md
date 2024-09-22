@@ -30,3 +30,5 @@ State Management: Redux
 and Backend: node js ,express js ,mongoose,
 database : MongoDB
 Here Is Live Link : https://dapper-nasturtium-bce1b7.netlify.app/ 
+admin email: admin@admin.com  
+Password: 123456
